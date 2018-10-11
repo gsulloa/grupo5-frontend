@@ -1,22 +1,22 @@
 import { combineReducers } from "redux"
 import { persistReducer } from "redux-persist"
+import { connectRouter } from "connected-react-router"
 
-import router from "./modules/router"
-
-function configureReducers(storage) {
+function configureReducers({ storage, history }) {
   const persistConfig = {
     key: "root",
     storage,
-    blacklist: ["hydratation", "router"],
+    blacklist: ["hydratation", "routing"],
     version: 1,
   }
 
   const combinedReducer = combineReducers({
-    router,
+    keep: state => state || null,
   })
 
   const persistedReducer = persistReducer(persistConfig, combinedReducer)
-  return persistedReducer
+  const routedReducer = connectRouter(history)(persistedReducer)
+  return routedReducer
 }
 
 export default configureReducers

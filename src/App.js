@@ -1,28 +1,34 @@
 import React, { Component } from "react"
-import logo from "./logo.svg"
-import "./App.css"
+import PropTypes from "prop-types"
+import { Provider, connect } from "react-redux"
+import { ConnectedRouter } from "connected-react-router"
 
-class App extends Component {
+import { devlog } from "./utils/log"
+import Nav from "./Nav"
+import { PersistGate } from "redux-persist/integration/react"
+
+export class App extends Component {
+  static propTypes = {
+    store: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+    persistor: PropTypes.object.isRequired,
+  }
+
   render() {
+    devlog("App", this.state, this.props)
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Provider store={this.props.store}>
+        <PersistGate
+          loading={<h1>Loading</h1>}
+          persistor={this.props.persistor}
+        >
+          <ConnectedRouter history={this.props.history}>
+            <Nav />
+          </ConnectedRouter>
+        </PersistGate>
+      </Provider>
     )
   }
 }
 
-export default App
+export default connect()(App)

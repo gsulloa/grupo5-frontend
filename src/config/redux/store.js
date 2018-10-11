@@ -3,7 +3,7 @@ import thunk from "redux-thunk"
 import logger from "redux-logger"
 import promiseMiddleware from "redux-promise-middleware"
 import { persistStore } from "redux-persist"
-import { routerMiddleware } from "react-router-redux"
+import { routerMiddleware } from "connected-react-router"
 
 import reducers from "./reducers"
 import storage from "redux-persist/lib/storage" // defaults to localStorage for web and AsyncStorage for react-native
@@ -15,7 +15,6 @@ export default function configureStore(
   customStorage = storage
 ) {
   const shouldLog = process.env.NODE_ENV === "development"
-
   // Setup middleware
   const middleware = [
     thunk.withExtraArgument({ api }),
@@ -30,7 +29,11 @@ export default function configureStore(
   const enhancer = compose(applyMiddleware(...middleware))
 
   // Create redux store
-  const store = createStore(reducers(customStorage), initialState, enhancer)
+  const store = createStore(
+    reducers({ storage: customStorage, history }),
+    initialState,
+    enhancer
+  )
   const persistor = persistStore(store)
 
   return { store, persistor }

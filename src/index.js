@@ -1,18 +1,18 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import createHistory from "history/createBrowserHistory"
-
 import App from "./App"
 import Api from "./Api"
 import configureStore from "./config/redux/store"
 import { devlog } from "./utils/log"
 import * as serviceWorker from "./serviceWorker"
 
-const history = createHistory()
 const api = new Api(process.env.REACT_APP_API || "http://localhost:3000")
 
 // Redux required objects
 const initialState = {}
+const history = createHistory()
+
 const { store, persistor } = configureStore(initialState, history, { api })
 
 devlog("index.js", "store", store, "persistor", persistor)

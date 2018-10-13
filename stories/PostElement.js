@@ -26,4 +26,7 @@ export default () => {
       Fusce sit amet dapibus enim, ut tincidunt nulla. Vestibulum id elit est. Etiam aliquam at velit id finibus. Proin a viverra urna. Sed vitae lectus bibendum, sollicitudin nisi eget, interdum libero. Etiam eu mi finibus, maximus massa at, tempor odio. Nunc ut libero ac diam blandit feugiat. Suspendisse ultricies ut elit non ornare. Maecenas semper urna quis nisl aliquam, blandit pretium mi pharetra. Morbi ac ante nibh. Nullam commodo magna metus. Etiam placerat neque nisl, ut mollis dui porttitor nec. Duis mi diam, venenatis a iaculis ac, venenatis et nisi.`}
       />
     ))
+    .add("Selected element", () => (
+      <PostElement title="Titulo!" body="cuerpo del mensaje" selected />
+    ))
 }

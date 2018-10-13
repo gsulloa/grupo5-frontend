@@ -26,28 +26,31 @@ const styles = theme => ({
 })
 
 function PostList(props) {
-  const { classes } = props
+  const { classes, children, posts } = props
 
   return (
-    <Paper className={classes.container}>
-      <List>
-        <PostElement title="test" body="as" selected />
-        <PostElement title="test" body="as" />
-        <PostElement
-          title="test"
-          body={`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis at purus at fringilla. Aliquam erat volutpat. Vivamus aliquam, lectus non feugiat luctus, nulla erat bibendum libero, in scelerisque arcu velit non lectus. Nullam sagittis malesuada magna. Curabitur aliquet vehicula interdum. Suspendisse eleifend vulputate lacus, a lobortis leo elementum ut. Morbi dictum accumsan faucibus. Sed sit amet metus ultrices, euismod magna a, elementum justo. Suspendisse ut dui eget risus euismod ultrices nec vitae dolor. Interdum et malesuada fames ac ante ipsum primis in faucibus. In posuere turpis a iaculis aliquam.
-
-Phasellus eget est pretium, faucibus nulla id, congue arcu. Cras molestie turpis eu posuere efficitur. Quisque eleifend aliquam sapien, in tristique nibh ultricies sagittis. Donec at neque convallis mi tempus laoreet in eu sem. Nulla facilisi. In in orci mattis mi suscipit dictum. Vivamus dignissim odio in magna feugiat venenatis. Integer diam enim, gravida vel bibendum id, ultricies non elit.
-
-`}
-        />
-      </List>
-    </Paper>
+    <List>
+      {children}
+      {posts.map(post => {
+        return <PostElement key={post.id} {...post} />
+      })}
+    </List>
   )
 }
 
 PostList.propTypes = {
   classes: PropTypes.object.isRequired,
+  children: PropTypes.arrayOf(PropTypes.element),
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.any.isRequired,
+      title: PropTypes.string.isRequired,
+      body: PropTypes.string,
+    })
+  ),
+}
+PostList.defaultProps = {
+  posts: [],
 }
 
 export default withStyles(styles)(PostList)

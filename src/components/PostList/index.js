@@ -1,6 +1,5 @@
-import React from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
-import Paper from "@material-ui/core/Paper"
 import { withStyles } from "@material-ui/core/styles"
 import PostElement from "./PostElement"
 import { List } from "@material-ui/core"
@@ -25,32 +24,46 @@ const styles = theme => ({
   icon: {},
 })
 
-function PostList(props) {
-  const { classes, children, posts } = props
+class PostList extends Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    children: PropTypes.arrayOf(PropTypes.element),
+    posts: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.any.isRequired,
+        title: PropTypes.string.isRequired,
+        body: PropTypes.string,
+      })
+    ),
+    onPostClick: PropTypes.func.isRequired,
+    selected: PropTypes.any,
+  }
+  static defaultProps = {
+    posts: [],
+  }
 
-  return (
-    <List>
-      {children}
-      {posts.map(post => {
-        return <PostElement key={post.id} {...post} />
-      })}
-    </List>
-  )
-}
+  handlePostClick = post => {
+    this.props.onPostClick(post)
+  }
 
-PostList.propTypes = {
-  classes: PropTypes.object.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element),
-  posts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.any.isRequired,
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string,
-    })
-  ),
-}
-PostList.defaultProps = {
-  posts: [],
+  render() {
+    const { posts, selected } = this.props
+
+    return (
+      <List>
+        {posts.map(post => {
+          return (
+            <PostElement
+              key={post.id}
+              {...post}
+              onClick={() => this.handlePostClick(post)}
+              selected={post.id === selected}
+            />
+          )
+        })}
+      </List>
+    )
+  }
 }
 
 export default withStyles(styles)(PostList)

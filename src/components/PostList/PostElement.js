@@ -6,6 +6,7 @@ import { MAX_SHORT_BODY_LENGTH } from "../../config/constants"
 
 const styles = theme => ({
   menuItem: {
+    cursor: "pointer",
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
       "& $primary, & $icon": {

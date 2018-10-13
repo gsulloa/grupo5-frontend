@@ -3,38 +3,44 @@ import { storiesOf } from "@storybook/react"
 import PostList from "../src/components/PostList"
 import { theme } from "../src/withRoot"
 import { muiTheme } from "storybook-addon-material-ui"
-import PostElement from "../src/components/PostList/PostElement"
+import { action } from "@storybook/addon-actions";
 
 export default () => {
   storiesOf("PostList", module)
     .addDecorator(muiTheme([theme]))
     .add("Empty postlist", () => <PostList />)
-    .add("One element postlist (post array)", () => (
+    .add("One element postlist", () => (
       <PostList posts={[{ id: 1, title: "Titulo", body: "Body" }]} />
     ))
-    .add("Five elements postlist (post array)", () => (
+    .add("Five elements postlist", () => (
       <PostList
         posts={Array(5)
           .fill(0)
           .map((_, index) => {
             return { id: index, title: "Titulo", body: "Body" }
           })}
+        onPostClick={action("Clicked post")}
       />
     ))
-    .add("One element postlist (children)", () => (
-      <PostList>
-        <PostElement id={1} title="Titulo" body="Body" />
-      </PostList>
-    ))
-    .add("Five elements postlist (children)", () => (
-      <PostList>
-        {Array(5)
+    .add("Really big postlist", () => (
+      <PostList
+        posts={Array(100)
           .fill(0)
           .map((_, index) => {
-            return (
-              <PostElement title="Titulo" body="Body" id={index} key={index} />
-            )
+            return { id: index, title: "Titulo", body: "Body" }
           })}
-      </PostList>
+        onPostClick={action("Clicked post")}
+      />
+    ))
+    .add("Selected element", () => (
+      <PostList
+        posts={Array(5)
+          .fill(0)
+          .map((_, index) => {
+            return { id: index, title: "Titulo", body: "Body" }
+          })}
+        selected={2}
+        onPostClick={action("Clicked post")}
+      />
     ))
 }

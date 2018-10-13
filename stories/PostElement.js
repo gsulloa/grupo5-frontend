@@ -3,13 +3,20 @@ import { storiesOf } from "@storybook/react"
 import PostElement from "../src/components/PostList/PostElement"
 import { theme } from "../src/withRoot"
 import { muiTheme } from "storybook-addon-material-ui"
+import { action } from "@storybook/addon-actions"
 
 export default () => {
   storiesOf("PostElement", module)
     .addDecorator(muiTheme([theme]))
-    .add("Empty post element", () => <PostElement />)
+    .add("Empty post element", () => (
+      <PostElement onClick={action("Clicked!")} />
+    ))
     .add("Normal post element", () => (
-      <PostElement title="Titulo!" body="cuerpo del mensaje" />
+      <PostElement
+        title="Titulo!"
+        body="cuerpo del mensaje"
+        onClick={action("Clicked!")}
+      />
     ))
     .add("Long post element", () => (
       <PostElement
@@ -24,9 +31,15 @@ export default () => {
       Suspendisse iaculis euismod sapien scelerisque maximus. Vivamus efficitur non magna eget blandit. Integer feugiat tortor velit, nec dictum massa consectetur nec. Cras sit amet luctus lectus, id tempor leo. Ut eros lacus, tempor vitae risus elementum, venenatis interdum purus. Donec et scelerisque diam. Phasellus et urna libero. Cras fermentum hendrerit velit, sit amet congue quam tincidunt vel. Sed in blandit magna, vitae vulputate leo. Donec aliquet risus sit amet sollicitudin pellentesque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Integer elementum risus quis lacus commodo laoreet.
       
       Fusce sit amet dapibus enim, ut tincidunt nulla. Vestibulum id elit est. Etiam aliquam at velit id finibus. Proin a viverra urna. Sed vitae lectus bibendum, sollicitudin nisi eget, interdum libero. Etiam eu mi finibus, maximus massa at, tempor odio. Nunc ut libero ac diam blandit feugiat. Suspendisse ultricies ut elit non ornare. Maecenas semper urna quis nisl aliquam, blandit pretium mi pharetra. Morbi ac ante nibh. Nullam commodo magna metus. Etiam placerat neque nisl, ut mollis dui porttitor nec. Duis mi diam, venenatis a iaculis ac, venenatis et nisi.`}
+        onClick={action("Clicked!")}
       />
     ))
     .add("Selected element", () => (
-      <PostElement title="Titulo!" body="cuerpo del mensaje" selected />
+      <PostElement
+        title="Titulo!"
+        body="cuerpo del mensaje"
+        selected
+        onClick={action("Clicked!")}
+      />
     ))
 }

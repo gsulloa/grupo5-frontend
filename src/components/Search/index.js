@@ -10,6 +10,7 @@ const Search = ({ handleSearch, query, results }) => {
         flexFlow: "column nowrap",
         justifyContent: "flex-start",
         alignItems: "flex-start",
+        flex: 1,
       }}
     >
       <SearchInput onSearch={handleSearch} query={query} />
@@ -26,6 +27,7 @@ const Search = ({ handleSearch, query, results }) => {
         flexFlow: "column nowrap",
         justifyContent: "center",
         alignItems: "center",
+        flex: 1,
       }}
     >
       <SearchInput onSearch={handleSearch} query={query} />

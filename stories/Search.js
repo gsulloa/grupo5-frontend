@@ -19,4 +19,9 @@ export default () => {
         results={[1, 2]}
       />
     ))
+    .add("Empty search with div", () => (
+      <div style={{ height: "500px", display: "flex" }}>
+        <Search handleSearch={action("Search!!")} />
+      </div>
+    ))
 }

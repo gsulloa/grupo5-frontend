@@ -14,7 +14,7 @@ const styles = theme => ({
   action: {
     marginRight: "auto",
     marginLeft: "auto",
-  }
+  },
 })
 
 const SignForm = ({ classes, submit, register, onSubmit, onClick }) => {

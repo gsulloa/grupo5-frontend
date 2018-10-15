@@ -1,1 +1,2 @@
 export const MAX_SHORT_BODY_LENGTH = 100
+export const DEBOUNCE_SEARCH_TIMEOUT = 2000

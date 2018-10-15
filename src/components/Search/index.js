@@ -4,6 +4,9 @@ import { withStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Grid from "@material-ui/core/Grid"
 import SearchIcon from "@material-ui/icons/Search"
+import debounce from "lodash/debounce"
+
+import { DEBOUNCE_SEARCH_TIMEOUT } from "../../config/constants"
 
 const styles = theme => ({
   margin: {
@@ -14,6 +17,7 @@ const styles = theme => ({
 class Search extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    onSearch: PropTypes.func.isRequired,
   }
 
   state = {
@@ -22,6 +26,17 @@ class Search extends Component {
   handleWrite = e => {
     const query = e.target.value
     this.setState({ query })
+    this.handleSearch(query)
+  }
+
+  handleSearch = debounce(this.props.onSearch, DEBOUNCE_SEARCH_TIMEOUT, {
+    trailing: true,
+    leading: false,
+  })
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.handleSearch.flush()
   }
 
   render() {
@@ -33,12 +48,14 @@ class Search extends Component {
             <SearchIcon />
           </Grid>
           <Grid item>
-            <TextField
-              id="input-with-icon-grid"
-              label="Buscar..."
-              value={this.state.query}
-              onChange={this.handleWrite}
-            />
+            <form onSubmit={this.handleSubmit}>
+              <TextField
+                id="input-with-icon-grid"
+                label="Buscar..."
+                value={this.state.query}
+                onChange={this.handleWrite}
+              />
+            </form>
           </Grid>
         </Grid>
       </div>

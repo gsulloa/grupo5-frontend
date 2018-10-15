@@ -8,5 +8,5 @@ import Search from "../src/components/Search"
 export default () => {
   storiesOf("Search", module)
     .addDecorator(muiTheme([theme]))
-    .add("Empty search", () => <Search />)
+    .add("Empty search", () => <Search onSearch={action("Search!!")} />)
 }

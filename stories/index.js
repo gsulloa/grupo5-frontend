@@ -1,7 +1,7 @@
 import postListBook from "./PostList"
 import postElementBook from "./PostElement"
-import searchBook from "./Search"
+import searchInputBook from "./SearchInput"
 
 postElementBook()
 postListBook()
-searchBook()
+searchInputBook()

@@ -14,15 +14,27 @@ const styles = theme => ({
   },
 })
 
-class Search extends Component {
+class SearchInput extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     onSearch: PropTypes.func.isRequired,
+    query: PropTypes.string,
+  }
+  static defaultProps = {
+    query: "",
+  }
+
+  componentDidMount() {
+    if (this.props.query !== "") {
+      this.handleSearch(this.props.query)
+      this.handleSearch.flush()
+    }
   }
 
   state = {
-    query: "",
+    query: this.props.query,
   }
+
   handleWrite = e => {
     const query = e.target.value
     this.setState({ query })
@@ -63,4 +75,4 @@ class Search extends Component {
   }
 }
 
-export default withStyles(styles)(Search)
+export default withStyles(styles)(SearchInput)

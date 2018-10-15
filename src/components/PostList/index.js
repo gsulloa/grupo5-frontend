@@ -48,7 +48,6 @@ class PostList extends Component {
 
   render() {
     const { posts, selected } = this.props
-
     return (
       <List>
         {posts.map(post => {

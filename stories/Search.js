@@ -8,9 +8,7 @@ import Search from "../src/components/Search"
 export default () => {
   storiesOf("Search", module)
     .addDecorator(muiTheme([theme]))
-    .add("Empty search input", () => (
-      <Search handleSearch={action("Search!!")} />
-    ))
+    .add("Empty search", () => <Search handleSearch={action("Search!!")} />)
     .add("Predefined text", () => (
       <Search handleSearch={action("Search!!")} query={"find text"} />
     ))

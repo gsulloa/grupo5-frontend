@@ -1,1 +1,2 @@
 export const MAX_SHORT_BODY_LENGTH = 100
+export const MAX_SHORT_REPLY_BODY_LENGTH = 120

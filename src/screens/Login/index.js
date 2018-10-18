@@ -59,11 +59,14 @@ class Login extends Component {
   }
 
   handleSubmit = () => {
-    if (this.state.register) {
+    if (this.state.register === statuses.login) {
+      devlog("post sign in")
+    } else if (this.state.register === statuses.signup) {
       devlog("post on sign up")
     } else {
-      devlog("post sign in")
+      devlog("post to forgot password")
     }
+    this.setState({ register: statuses.login })
   }
 
   submitMessage = () => {

@@ -9,6 +9,7 @@ import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 
 import Home from "./screens/Home"
+import Login from "./screens/Login"
 import NotFound from "./screens/NotFound"
 
 import routes from "./config/routes"
@@ -46,6 +47,7 @@ class Navigator extends Component {
         </AppBar>
         <Switch>
           <Route exact path={routes.homePath} component={Home} />
+          <Route exact path={routes.login} component={Login} />
           <Route component={NotFound} title="Not found" />
         </Switch>
       </div>

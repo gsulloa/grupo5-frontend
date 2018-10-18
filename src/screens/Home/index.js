@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import VisitHome from "../Login"
 import { devlog } from "../../utils/log"
 
 const mapStateToProps = () => ({})
@@ -11,10 +10,9 @@ class Home extends Component {
   render() {
     devlog("Home", this.props)
     return (
-      <VisitHome />
-      // <div>
-      //   <h1>React Template</h1>
-      // </div>
+      <div>
+        <h1>React Template</h1>
+      </div>
     )
   }
 }

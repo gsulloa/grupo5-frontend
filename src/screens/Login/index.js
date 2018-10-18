@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button"
 import ContentBox from "../../components/ContentBox"
 import SignForm from "../../components/ContentBox/SignForm"
 import "./index.css"
+import { devlog } from "../../utils/log"
 
 const styles = theme => ({
   container: {
@@ -25,57 +26,90 @@ const styles = theme => ({
     marginLeft: "auto",
     marginRight: "auto",
     textAlign: "center",
-  }
+  },
 })
 
-class VisitHome extends Component {
+const statuses = {
+  login: 0,
+  signup: 1,
+  forgotPassword: 2,
+}
+
+class Login extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
   }
   constructor(props) {
     super(props)
     this.state = {
-      register: false,
+      register: statuses.login,
+    }
+  }
+
+  changeStatus = () => {
+    if (this.state.register === statuses.forgotPassword) {
+      this.setState({ register: statuses.login })
+    } else {
+      this.setState({ register: statuses.signup })
     }
   }
 
   handleForgotPassword = () => {
-    console.log("Forgot my password")
+    this.setState({ register: statuses.forgotPassword })
   }
 
   handleSubmit = () => {
     if (this.state.register) {
-      console.log("post on sign up")
+      devlog("post on sign up")
     } else {
-      console.log("post sign in")
+      devlog("post sign in")
+    }
+  }
+
+  submitMessage = () => {
+    if (this.state.register === statuses.login) {
+      return "Iniciar Sesión"
+    } else if (this.state.register === statuses.signup) {
+      return "Registrarme"
+    } else {
+      return "Enviar"
     }
   }
 
   render() {
+    const { classes } = this.props
     return (
-      <div className={this.props.classes.container}>
+      <div className={classes.container}>
         <ContentBox
           style={{ width: "50%" }}
           primaryContent={
             <SignForm
-              submit={this.state.register ? "Registrarme" : "Iniciar Sesión"}
+              submit={this.submitMessage()}
               register={this.state.register}
               onClick={this.handleSubmit}
               onSubmit={this.handleSubmit}
             />
           }
           secondaryContent={
-            <div className={this.props.classes.centralize}>
-              <a href="#" onClick={this.handleForgotPassword}>
-                Forgot your password?
-              </a>
+            <div className={classes.centralize}>
+              {this.state.register === statuses.forgotPassword &&
+                `Las instrucciones para reestrablecer la contraseña serán
+                enviadas a el mail ingresado`}
+              {this.state.register !== statuses.forgotPassword && (
+                <a href="#" onClick={this.handleForgotPassword}>
+                  Forgot your password?
+                </a>
+              )}
               <br />
               <Button
                 variant="outlined"
                 color="secondary"
-                className={this.props.classes.button}
+                className={classes.button}
+                onClick={this.changeStatus}
               >
-                Sign up
+                {this.state.register === statuses.forgotPassword
+                  ? "Sign in"
+                  : "Sign up"}
               </Button>
             </div>
           }
@@ -85,4 +119,4 @@ class VisitHome extends Component {
   }
 }
 
-export default withStyles(styles)(VisitHome)
+export default withStyles(styles)(Login)

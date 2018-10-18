@@ -22,7 +22,7 @@ const SignForm = ({ classes, submit, register, onSubmit, onClick }) => {
     <form noValidate onSubmit={onSubmit}>
       <Typography>
         <TextField
-          required={register}
+          required
           label="Email"
           type="email"
           autocomplete="email"
@@ -32,19 +32,21 @@ const SignForm = ({ classes, submit, register, onSubmit, onClick }) => {
           variant="outlined"
         />
       </Typography>
-      <Typography>
-        <TextField
-          required={register}
-          label="Password"
-          className={classes.textField}
-          type="password"
-          autoComplete="current-password"
-          margin="normal"
-          fullWidth
-          variant="outlined"
-        />
-      </Typography>
-      {register && (
+      {register !== 2 && (
+        <Typography>
+          <TextField
+            required={register === 0 || register === 1}
+            label="Password"
+            className={classes.textField}
+            type="password"
+            autoComplete="current-password"
+            margin="normal"
+            fullWidth
+            variant="outlined"
+          />
+        </Typography>
+      )}
+      {register === 1 && (
         <Typography>
           <TextField
             required
@@ -56,7 +58,7 @@ const SignForm = ({ classes, submit, register, onSubmit, onClick }) => {
           />
         </Typography>
       )}
-      {register && (
+      {register === 1 && (
         <Typography>
           <TextField
             required

@@ -6,12 +6,19 @@ import ContentBox from "../src/components/ContentBox"
 import SignForm from "../src/components/ContentBox/SignForm"
 import { theme } from "../src/withRoot"
 
+const statuses = {
+  login: 0,
+  signup: 1,
+  forgotPassword: 2,
+}
+
 export default () => {
   storiesOf("SignForm", module)
     .addDecorator(muiTheme([theme]))
     .add("Default SignForm", () => (
       <SignForm
         submit="Iniciar Sesión"
+        register={statuses.login}
         onClick={action("On click")}
         onSubmit={action("On submit")}
       />
@@ -21,7 +28,7 @@ export default () => {
         submit="Registrarme"
         onClick={action("Sign up submit")}
         onSubmit={action("Sign up submit")}
-        register={true}
+        register={statuses.signup}
       />
     ))
     .add("SignForm on ContentBox", () => (
@@ -29,6 +36,7 @@ export default () => {
         primaryContent={
           <SignForm
             submit="Iniciar Sesión"
+            register={statuses.login}
             onClick={action("On click")}
             onSubmit={action("On submit")}
           />
@@ -41,12 +49,32 @@ export default () => {
         primaryContent={
           <SignForm
             submit="Iniciar Sesión"
+            register={statuses.login}
             onClick={action("On click")}
             onSubmit={action("On submit")}
           />
         }
         secondaryContent={
           <a onClick={action("Redirect")}>Forgot your password?</a>
+        }
+      />
+    ))
+    .add("Forgot password on ContentBox", () => (
+      <ContentBox
+        style={{ width: "50%" }}
+        primaryContent={
+          <SignForm
+            submit="Enviar"
+            register={statuses.forgotPassword}
+            onClick={action("On click")}
+            onSubmit={action("On submit")}
+          />
+        }
+        secondaryContent={
+          <div>
+            Se enviarán las instrucciones para la contresañe en el mail que ingreses
+            <br /><a onClick={action("Redirect")}>Iniciar sesión</a>
+          </div>
         }
       />
     ))

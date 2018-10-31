@@ -6,6 +6,7 @@ import ContentBoxBook from "./ContentBox"
 import SignFormBook from "./SignForm"
 import MessageBook from "./Message"
 import ReplyBook from "./Reply"
+import drawerBook from "./Drawer"
 
 postElementBook()
 postListBook()
@@ -15,3 +16,4 @@ ReplyBook()
 MessageBook()
 searchInputBook()
 searchBook()
+drawerBook()

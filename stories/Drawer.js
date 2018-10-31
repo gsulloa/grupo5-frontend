@@ -1,19 +1,19 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import PostList from "../src/components/PostList"
+import MainDrawer from "../src/components/MainDrawer"
 import { theme } from "../src/withRoot"
 import { muiTheme } from "storybook-addon-material-ui"
 import { action } from "@storybook/addon-actions"
 
 export default () => {
-  storiesOf("PostList", module)
+  storiesOf("Drawer", module)
     .addDecorator(muiTheme([theme]))
-    .add("Empty postlist", () => <PostList />)
-    .add("One element postlist", () => (
-      <PostList posts={[{ id: 1, title: "Titulo", body: "Body" }]} />
+    .add("Empty Drawer", () => <MainDrawer />)
+    .add("One element Drawer", () => (
+      <MainDrawer posts={[{ id: 1, title: "Titulo", body: "Body" }]} />
     ))
     .add("Five elements postlist", () => (
-      <PostList
+      <MainDrawer
         posts={Array(5)
           .fill(0)
           .map((_, index) => {
@@ -23,7 +23,7 @@ export default () => {
       />
     ))
     .add("Really big postlist", () => (
-      <PostList
+      <MainDrawer
         posts={Array(100)
           .fill(0)
           .map((_, index) => {
@@ -33,7 +33,7 @@ export default () => {
       />
     ))
     .add("Selected element", () => (
-      <PostList
+      <MainDrawer
         posts={Array(5)
           .fill(0)
           .map((_, index) => {

@@ -11,6 +11,7 @@ import Typography from "@material-ui/core/Typography"
 import Home from "./screens/Home"
 import Login from "./screens/Login"
 import NotFound from "./screens/NotFound"
+import Post from "./screens/Post"
 
 import routes from "./config/routes"
 import withRoot from "./withRoot"
@@ -47,6 +48,7 @@ class Navigator extends Component {
         </AppBar>
         <Switch>
           <Route exact path={routes.homePath} component={Home} />
+          <Route exact path={routes.postsPath} component={Post} />
           <Route exact path={routes.login} component={Login} />
           <Route component={NotFound} title="Not found" />
         </Switch>

@@ -35,7 +35,7 @@ class ContentBox extends Component {
     align: PropTypes.string,
   }
   static defaultProps = {
-    variant: "body1",
+    variant: "body2",
     align: "inherit",
     secondaryVariant: "body2",
   }

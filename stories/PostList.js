@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react"
 import PostList from "../src/components/PostList"
 import { theme } from "../src/withRoot"
 import { muiTheme } from "storybook-addon-material-ui"
-import { action } from "@storybook/addon-actions";
+import { action } from "@storybook/addon-actions"
 
 export default () => {
   storiesOf("PostList", module)

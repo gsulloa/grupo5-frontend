@@ -47,7 +47,7 @@ class Login extends Component {
   }
 
   changeStatus = () => {
-    if (this.state.register === statuses.forgotPassword) {
+    if (this.state.register === statuses.signup) {
       this.setState({ register: statuses.login })
     } else {
       this.setState({ register: statuses.signup })
@@ -110,7 +110,7 @@ class Login extends Component {
                 className={classes.button}
                 onClick={this.changeStatus}
               >
-                {this.state.register === statuses.forgotPassword
+                {this.state.register === statuses.signup
                   ? "Sign in"
                   : "Sign up"}
               </Button>

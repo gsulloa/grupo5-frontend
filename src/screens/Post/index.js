@@ -15,6 +15,7 @@ const styles = () => ({})
 class Post extends Component {
   render() {
     devlog("Post", this.props)
+    // TODO: Use selected Post
     const post = {
       id: 1,
       title: "Example post",

@@ -52,6 +52,7 @@ class MainDrawer extends Component {
   state = {
     anchor: "left",
     mobileOpen: false,
+    post: {},
     posts: [],
   }
 
@@ -60,6 +61,7 @@ class MainDrawer extends Component {
   }
 
   fetchPosts = () => {
+    // TODO: Receive posts from API
     const posts = Array(5)
       .fill(0)
       .map((_, index) => {
@@ -76,6 +78,11 @@ class MainDrawer extends Component {
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }))
+  }
+
+  selectPost = post => {
+    devlog("Selecting post", post)
+    this.setState({ post })
   }
 
   userLogged = () => {
@@ -105,6 +112,7 @@ class MainDrawer extends Component {
           posts={this.state.posts.map(post => {
             return { ...post }
           })}
+          onPostClick={this.selectPost}
         />
       </div>
     )

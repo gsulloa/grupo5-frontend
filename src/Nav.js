@@ -4,10 +4,6 @@ import { connect } from "react-redux"
 import { Route as RouteDom, Switch, withRouter } from "react-router-dom"
 import { Helmet } from "react-helmet"
 
-import AppBar from "@material-ui/core/AppBar"
-import Toolbar from "@material-ui/core/Toolbar"
-import Typography from "@material-ui/core/Typography"
-
 import Home from "./screens/Home"
 import Login from "./screens/Login"
 import NotFound from "./screens/NotFound"

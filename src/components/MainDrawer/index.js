@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
@@ -13,12 +12,9 @@ import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
 import PostList from "../PostList"
 import { devlog } from "../../utils/log"
+import "./index.css"
 
-const mapStateToProps = () => ({})
-
-const mapDispatchToProps = {}
-
-const drawerWidth = 240
+const drawerWidth = 280
 
 const styles = theme => ({
   root: {
@@ -53,13 +49,23 @@ const styles = theme => ({
 })
 
 class MainDrawer extends Component {
-  static defaultProps = {
-    posts: [],
-  }
-
   state = {
     anchor: "left",
     mobileOpen: false,
+    posts: [],
+  }
+
+  componentDidMount() {
+    this.fetchPosts()
+  }
+
+  fetchPosts = () => {
+    const posts = Array(5)
+      .fill(0)
+      .map((_, index) => {
+        return { id: index, title: "Titulo", body: "Body" }
+      })
+    this.setState({ posts })
   }
 
   handleChange = event => {
@@ -72,16 +78,31 @@ class MainDrawer extends Component {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }))
   }
 
+  userLogged = () => {
+    // TODO: Check if user is logged
+    return true
+  }
+
   render() {
     devlog("Post", this.props)
-    const { classes, posts } = this.props
+    const { classes } = this.props
+    if (!this.userLogged()) {
+      return (
+        <div className={classes.root}>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            {this.props.children}
+          </main>
+        </div>
+      )
+    }
 
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <Divider />
         <PostList
-          posts={posts.map(post => {
+          posts={this.state.posts.map(post => {
             return { ...post }
           })}
         />
@@ -106,7 +127,6 @@ class MainDrawer extends Component {
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
-          {/* The implementation can be swap with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}
@@ -118,7 +138,7 @@ class MainDrawer extends Component {
                 paper: classes.drawerPaper,
               }}
               ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
+                keepMounted: true,
               }}
             >
               {drawer}
@@ -138,7 +158,7 @@ class MainDrawer extends Component {
         </nav>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-          {...this.props.children}
+          {this.props.children}
         </main>
       </div>
     )
@@ -159,7 +179,4 @@ MainDrawer.propTypes = {
   ),
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(MainDrawer))
+export default withStyles(styles)(MainDrawer)

@@ -3,60 +3,58 @@ import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import MainDrawer from "../../components/MainDrawer"
 import { devlog } from "../../utils/log"
-import PostList from "../../components/PostList"
+import Message from "../../components/Message"
 
 const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {}
 
-const drawerWidth = 240
-
-const styles = theme => ({
-  root: {
-    display: "flex",
-  },
-  drawer: {
-    [theme.breakpoints.up("sm")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up("sm")]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  menuButton: {
-    marginRight: 20,
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-})
+const styles = () => ({})
 
 class Post extends Component {
-  state = {
-    posts: [],
-  }
-
   render() {
     devlog("Post", this.props)
+    const post = {
+      id: 1,
+      title: "Example post",
+      body:
+        "The world is full of obvious things which nobody by any chance ever observes.",
+      messages: [
+        {
+          author: "Jake",
+          body: "Boyle, they found one of the stolen paintings at her house.",
+          replies: [
+            {
+              id: 2,
+              author: "Boyle",
+              body:
+                "But she says she didn't know how it ended up there. She's being set up.",
+            },
+            {
+              id: 3,
+              author: "Jake",
+              body: "Framed! Art joke. Continue.",
+            },
+          ],
+        },
+      ],
+    }
     return (
       <div>
-        <MainDrawer posts=<PostList/>>
-          <Typography paragraph>One paragraph</Typography>
-        </MainDrawer>
+        <Typography variant="title">{post.title}</Typography>
+        <Typography variant="body2">{post.body}</Typography>
+        <br />
+        {post.messages.map(msg => {
+          return (
+            <Message
+              key={msg.id}
+              author={msg.author}
+              body={msg.body}
+              replies={msg.replies}
+            />
+          )
+        })}
       </div>
     )
   }
@@ -64,8 +62,6 @@ class Post extends Component {
 
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
-  container: PropTypes.object,
-  theme: PropTypes.object.isRequired,
 }
 
 export default connect(

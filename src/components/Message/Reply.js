@@ -20,6 +20,13 @@ const styles = theme => ({
     cursor: "pointer",
     marginBottom: 12,
   },
+  comment: {
+    display: "inline-block",
+  },
+  author: {
+    display: "inline-block",
+    marginRight: 3,
+  },
 })
 
 class Reply extends Component {
@@ -52,8 +59,12 @@ class Reply extends Component {
         : body
     return (
       <div className={classes.container}>
-        <Typography color="textSecondary">{author}:</Typography>
-        <Typography> {this.state.showMore ? body : shortBody}</Typography>
+        <Typography className={classes.author} color="textSecondary">
+          {author}:
+        </Typography>
+        <Typography className={classes.comment}>
+          {this.state.showMore ? body : shortBody}
+        </Typography>
         {body.length > MAX_SHORT_REPLY_BODY_LENGTH && (
           <Typography
             className={classes.pos}

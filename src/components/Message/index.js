@@ -21,6 +21,16 @@ const styles = () => ({
   },
   pos: {
     marginBottom: 12,
+    marginRight: 3,
+    display: "inline-block",
+  },
+  comment: {
+    display: "inline-block",
+  },
+  separator: {
+    width: "90%",
+    marginLeft: 20,
+    marginBottom: 10,
   },
 })
 
@@ -49,19 +59,21 @@ class Message extends Component {
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.pos} color="textSecondary">
-              {this.props.author}
+              {this.props.author}:
             </Typography>
-            <Typography component="p">{this.props.body}</Typography>
+            <Typography className={classes.comment} component="p">
+              {this.props.body}
+            </Typography>
+            {replies.map(reply => {
+              return (
+                <div key={reply.id}>
+                  <Reply {...reply} />
+                  <Divider className={classes.separator} />
+                </div>
+              )
+            })}
           </CardContent>
         </Card>
-        {replies.map(reply => {
-          return (
-            <div key={reply.id}>
-              <Reply {...reply} />
-              <Divider />
-            </div>
-          )
-        })}
       </div>
     )
   }

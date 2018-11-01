@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { devlog } from "../../utils/log"
+import MainDrawer from "../../components/MainDrawer"
 
 const mapStateToProps = () => ({})
 

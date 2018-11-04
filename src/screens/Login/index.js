@@ -8,7 +8,7 @@ import SignForm from "../../components/ContentBox/SignForm"
 import "./index.css"
 import { devlog } from "../../utils/log"
 import { Typography } from "@material-ui/core"
-import { loginUser } from "../../config/redux/modules/auth"
+import { loginUser, registerUser } from "../../config/redux/modules/auth"
 
 const styles = theme => ({
   container: {
@@ -42,6 +42,7 @@ class Login extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     loginUser: PropTypes.func.isRequired,
+    registerUser: PropTypes.func.isRequired,
   }
   constructor(props) {
     super(props)
@@ -66,7 +67,7 @@ class Login extends Component {
     if (this.state.register === statuses.login) {
       this.props.loginUser(data)
     } else if (this.state.register === statuses.signup) {
-      devlog("post on sign up")
+      this.props.registerUser(data)
     } else {
       devlog("post to forgot password")
     }
@@ -130,6 +131,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => ({
   loginUser: ({ email, password }) => dispatch(loginUser({ email, password })),
+  registerUser: ({ email, password, name, lastName }) =>
+    dispatch(registerUser({ email, password, name, lastName })),
 })
 
 export default connect(

@@ -2,6 +2,8 @@ import { combineReducers } from "redux"
 import { persistReducer } from "redux-persist"
 import { connectRouter } from "connected-react-router"
 
+import auth from "./modules/auth"
+
 function configureReducers({ storage, history }) {
   const persistConfig = {
     key: "root",
@@ -11,10 +13,16 @@ function configureReducers({ storage, history }) {
   }
 
   const combinedReducer = combineReducers({
-    keep: state => state || null,
+    auth,
   })
+  const rootReducer = (state, action) => {
+    if (action.type === "RESET") {
+      state = undefined
+    }
+    return combinedReducer(state, action)
+  }
 
-  const persistedReducer = persistReducer(persistConfig, combinedReducer)
+  const persistedReducer = persistReducer(persistConfig, rootReducer)
   const routedReducer = connectRouter(history)(persistedReducer)
   return routedReducer
 }

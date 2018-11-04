@@ -23,6 +23,7 @@ class Post extends Component {
         "The world is full of obvious things which nobody by any chance ever observes.",
       messages: [
         {
+          id: 4,
           author: "Jake",
           body: "Boyle, they found one of the stolen paintings at her house.",
           replies: [

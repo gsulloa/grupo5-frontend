@@ -23,6 +23,7 @@ class Post extends Component {
         "The world is full of obvious things which nobody by any chance ever observes.",
       messages: [
         {
+          id: 4,
           author: "Jake",
           body: "Boyle, they found one of the stolen paintings at her house.",
           replies: [
@@ -43,8 +44,8 @@ class Post extends Component {
     }
     return (
       <div>
-        <Typography variant="title">{post.title}</Typography>
-        <Typography variant="body2">{post.body}</Typography>
+        <Typography variant="h6">{post.title}</Typography>
+        <Typography variant="body1">{post.body}</Typography>
         <br />
         {post.messages.map(msg => {
           return (

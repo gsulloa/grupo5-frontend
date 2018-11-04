@@ -9,9 +9,6 @@ const styles = theme => ({
     cursor: "pointer",
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
-      "& $primary, & $icon": {
-        color: theme.palette.common.white,
-      },
     },
   },
 })
@@ -29,7 +26,7 @@ const PostElement = ({ classes, title, body, onClick, ...props }) => {
 }
 
 PostElement.propTypes = {
-  classes: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   body: PropTypes.string,

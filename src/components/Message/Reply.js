@@ -11,9 +11,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
-      "& $primary, & $icon": {
-        color: theme.palette.common.white,
-      },
     },
   },
   pos: {
@@ -77,15 +74,6 @@ class Reply extends Component {
       </div>
     )
   }
-}
-
-Reply.propTypes = {
-  classes: PropTypes.func.isRequired,
-  author: PropTypes.string.isRequired,
-  body: PropTypes.string,
-}
-Reply.defaultProps = {
-  body: "",
 }
 
 export default withStyles(styles)(Reply)

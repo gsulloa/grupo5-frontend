@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
-import Typography from "@material-ui/core/Typography"
 import Divider from "@material-ui/core/Divider"
 
 const styles = {
@@ -43,16 +42,10 @@ class ContentBox extends Component {
     const { classes, primaryContent, secondaryContent } = this.props
     return (
       <Card className={classes.card}>
-        <Typography variant={this.props.variant} align={this.props.align}>
-          <CardContent>{primaryContent}</CardContent>
-        </Typography>
+        <CardContent>{primaryContent}</CardContent>
         {secondaryContent !== undefined && <Divider />}
-        <Typography
-          variant={this.props.secondaryVariant}
-          align={this.props.align}
-        >
-          <CardActions>{secondaryContent}</CardActions>
-        </Typography>
+
+        <CardActions>{secondaryContent}</CardActions>
       </Card>
     )
   }

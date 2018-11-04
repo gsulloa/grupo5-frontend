@@ -87,11 +87,11 @@ const SignForm = ({ classes, submit, register, onSubmit, onClick }) => {
 }
 
 SignForm.propTypes = {
-  classes: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   submit: PropTypes.string.isRequired,
-  register: PropTypes.bool.isRequired,
+  register: PropTypes.number.isRequired,
 }
 
 export default withStyles(styles)(SignForm)

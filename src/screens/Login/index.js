@@ -6,6 +6,7 @@ import ContentBox from "../../components/ContentBox"
 import SignForm from "../../components/ContentBox/SignForm"
 import "./index.css"
 import { devlog } from "../../utils/log"
+import { Typography } from "@material-ui/core"
 
 const styles = theme => ({
   container: {
@@ -95,13 +96,16 @@ class Login extends Component {
           }
           secondaryContent={
             <div className={classes.centralize}>
-              {this.state.register === statuses.forgotPassword &&
-                `Las instrucciones para reestrablecer la contraseña serán
-                enviadas a el mail ingresado`}
+              {this.state.register === statuses.forgotPassword && (
+                <Typography>
+                  Las instrucciones para reestrablecer la contraseña serán
+                  enviadas a el mail ingresado
+                </Typography>
+              )}
               {this.state.register !== statuses.forgotPassword && (
-                <a href="#" onClick={this.handleForgotPassword}>
+                <Button onClick={this.handleForgotPassword}>
                   Forgot your password?
-                </a>
+                </Button>
               )}
               <br />
               <Button

@@ -2,11 +2,13 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
+import { connect } from "react-redux"
 import ContentBox from "../../components/ContentBox"
 import SignForm from "../../components/ContentBox/SignForm"
 import "./index.css"
 import { devlog } from "../../utils/log"
 import { Typography } from "@material-ui/core"
+import { loginUser } from "../../config/redux/modules/auth"
 
 const styles = theme => ({
   container: {
@@ -39,6 +41,7 @@ const statuses = {
 class Login extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
+    loginUser: PropTypes.func.isRequired,
   }
   constructor(props) {
     super(props)
@@ -59,9 +62,9 @@ class Login extends Component {
     this.setState({ register: statuses.forgotPassword })
   }
 
-  handleSubmit = () => {
+  handleSubmit = data => {
     if (this.state.register === statuses.login) {
-      devlog("post sign in")
+      this.props.loginUser(data)
     } else if (this.state.register === statuses.signup) {
       devlog("post on sign up")
     } else {
@@ -90,7 +93,6 @@ class Login extends Component {
             <SignForm
               submit={this.submitMessage()}
               register={this.state.register}
-              onClick={this.handleSubmit}
               onSubmit={this.handleSubmit}
             />
           }
@@ -126,4 +128,11 @@ class Login extends Component {
   }
 }
 
-export default withStyles(styles)(Login)
+const mapDispatchToProps = dispatch => ({
+  loginUser: ({ email, password }) => dispatch(loginUser({ email, password })),
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(Login))

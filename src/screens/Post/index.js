@@ -44,8 +44,8 @@ class Post extends Component {
     }
     return (
       <div>
-        <Typography variant="title">{post.title}</Typography>
-        <Typography variant="body2">{post.body}</Typography>
+        <Typography variant="h6">{post.title}</Typography>
+        <Typography variant="body1">{post.body}</Typography>
         <br />
         {post.messages.map(msg => {
           return (

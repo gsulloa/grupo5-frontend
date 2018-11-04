@@ -19,6 +19,9 @@ export const theme = createMuiTheme({
       dark: teal[700],
     },
   },
+  typography: {
+    useNextVariants: true,
+  },
 })
 
 function withRoot(Component) {

@@ -118,7 +118,6 @@ class MainDrawer extends Component {
     )
     return (
       <div className={classes.root}>
-        <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton

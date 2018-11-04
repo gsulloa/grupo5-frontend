@@ -43,16 +43,10 @@ class ContentBox extends Component {
     const { classes, primaryContent, secondaryContent } = this.props
     return (
       <Card className={classes.card}>
-        <Typography variant={this.props.variant} align={this.props.align}>
-          <CardContent>{primaryContent}</CardContent>
-        </Typography>
+        <CardContent>{primaryContent}</CardContent>
         {secondaryContent !== undefined && <Divider />}
-        <Typography
-          variant={this.props.secondaryVariant}
-          align={this.props.align}
-        >
-          <CardActions>{secondaryContent}</CardActions>
-        </Typography>
+
+        <CardActions>{secondaryContent}</CardActions>
       </Card>
     )
   }

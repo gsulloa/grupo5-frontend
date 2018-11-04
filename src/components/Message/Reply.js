@@ -76,13 +76,4 @@ class Reply extends Component {
   }
 }
 
-Reply.propTypes = {
-  classes: PropTypes.func.isRequired,
-  author: PropTypes.string.isRequired,
-  body: PropTypes.string,
-}
-Reply.defaultProps = {
-  body: "",
-}
-
 export default withStyles(styles)(Reply)

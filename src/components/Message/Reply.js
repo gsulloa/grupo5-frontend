@@ -11,9 +11,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
-      "& $primary, & $icon": {
-        color: theme.palette.common.white,
-      },
     },
   },
   pos: {

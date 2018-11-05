@@ -8,6 +8,7 @@ import Message from "../../components/Message"
 import { push } from "connected-react-router"
 import routes from "../../config/routes"
 import { getMessages, addMessage } from "../../config/redux/modules/messages"
+import { TextField } from "@material-ui/core";
 
 const styles = () => ({})
 
@@ -55,8 +56,11 @@ class Post extends Component {
         })}
         <div>
           <form onSubmit={this.handleSubmit}>
-            <label>Nuevo mensaje</label>
-            <input
+            <TextField
+              required
+              label="Nuevo mensaje"
+              margin="normal"
+              fullWidth
               value={this.state.text}
               onChange={e => this.setState({ text: e.target.value })}
             />

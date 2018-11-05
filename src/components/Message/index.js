@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography"
 import Divider from "@material-ui/core/Divider"
 import { connect } from "react-redux"
 import { addReply } from "../../config/redux/modules/replies"
+import { TextField } from "@material-ui/core";
 
 const styles = () => ({
   card: {
@@ -92,7 +93,12 @@ class Message extends Component {
             })}
             <div>
               <form onSubmit={this.handleSubmit}>
-                <input
+                <TextField
+                  required
+                  label="Nueva respuesta"
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
                   value={this.state.text}
                   onChange={e => this.setState({ text: e.target.value })}
                 />

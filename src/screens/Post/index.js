@@ -70,6 +70,7 @@ Post.propTypes = {
   classes: PropTypes.object.isRequired,
   auth: PropTypes.bool,
   goLogin: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state, ownProps) => {

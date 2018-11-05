@@ -9,15 +9,15 @@ const initialState = {
   data: {},
 }
 
-const SET_MESAGGES = "SET_MESAGGES"
+const SET_MESSAGES = "SET_MESSAGES"
 export default function posts(state = initialState, { type, payload }) {
   switch (type) {
-    case SET_MESAGGES:
+    case SET_MESSAGES:
       return {
         ...state,
         data: {
           ...state.data,
-          [payload.postId]: payload.messagesId,
+          [payload.postId]: payload.messages,
         },
       }
     case `${type}_FETCH_START`:
@@ -64,7 +64,7 @@ export function getMessages({ postId }) {
 
 function setMessages({ postId, messages }) {
   return {
-    type: SET_MESAGGES,
+    type: SET_MESSAGES,
     payload: {
       postId,
       messages,

@@ -2,6 +2,7 @@ import { push } from "react-router-redux"
 import doFetch from "./fetching"
 import { devlog, devlogerror } from "../../../utils/log"
 import routes from "../../routes"
+import { getPosts } from "./posts";
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"
@@ -49,7 +50,11 @@ function login(api, body) {
   return api.post("/people/login", body)
 }
 function register(api, data) {
-  return api.post("/session", data)
+  return api
+    .withToken(
+      "4G0LNevKjY6SQz7C8IVJIsWUbxS0OtBA1F5EfPrq1xfnjXDOU6EgwAkQjDomQ4E1"
+    )
+    .post("/services/175/people", data)
 }
 /*
   before Actions
@@ -66,6 +71,7 @@ export function loginUser(creds) {
           response.id
         )
       )
+      dispatch(getPosts())
       dispatch(push(routes.homePath))
     } catch (e) {
       devlogerror(e)
@@ -76,23 +82,13 @@ export function loginUser(creds) {
 export function registerUser(registerData) {
   return async (dispatch, getState, api) => {
     try {
-      const response = await doFetch(
-        dispatch,
-        register(api.api, registerData),
-        type
-      )
-      const data = response.token.split(".")
-      const userInfo = JSON.parse(atob(data[1]))
+      await doFetch(dispatch, register(api.api, registerData), type)
       dispatch(
-        receiveLogin(
-          {
-            userId: userInfo.userId,
-            role: "user",
-          },
-          response.token
-        )
+        loginUser({
+          email: registerData.email,
+          password: registerData.password,
+        })
       )
-      dispatch(push(routes.homePath))
     } catch (e) {
       devlogerror(e)
     }

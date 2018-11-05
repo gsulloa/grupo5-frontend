@@ -37,7 +37,7 @@ export default function posts(state = initialState, { type, payload }) {
 }
 
 function fetchPosts(api) {
-  return api.get("/posts")
+  return api.get("/services/175/posts")
 }
 
 export function getPosts() {

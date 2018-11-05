@@ -19,33 +19,7 @@ class Post extends Component {
   }
   render() {
     devlog("Post", this.props)
-    // TODO: Use selected Post
-    const post = {
-      id: 1,
-      title: "Example post",
-      body:
-        "The world is full of obvious things which nobody by any chance ever observes.",
-      messages: [
-        {
-          id: 4,
-          author: "Jake",
-          body: "Boyle, they found one of the stolen paintings at her house.",
-          replies: [
-            {
-              id: 2,
-              author: "Boyle",
-              body:
-                "But she says she didn't know how it ended up there. She's being set up.",
-            },
-            {
-              id: 3,
-              author: "Jake",
-              body: "Framed! Art joke. Continue.",
-            },
-          ],
-        },
-      ],
-    }
+    const { post } = this.props
     return (
       <div>
         <Typography variant="h6">{post.title}</Typography>
@@ -71,10 +45,13 @@ Post.propTypes = {
   auth: PropTypes.bool,
   goLogin: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
+  post: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const post = state.posts.data.find(e => e.id === ownProps.match.params.postId)
+  const post = state.posts.data.find(
+    e => e.id === Number(ownProps.match.params.postId)
+  )
   const fetching =
     state.posts.fetching && state.messages.fetching && state.replies.fetching
   return {
@@ -83,14 +60,22 @@ const mapStateToProps = (state, ownProps) => {
       post && !fetching
         ? {
             ...post,
-            messages: state.messages.data[post.id].map(message => {
-              return {
-                ...message,
-                replies: state.replies.data[message.id],
-              }
-            }),
+            messages: state.messages.data[post.id]
+              ? state.messages.data[post.id].map(message => {
+                  return {
+                    author: message.personId,
+                    body: message.description,
+                    replies: state.messages.data[post.id]
+                      ? state.replies.data[message.id].map(r => ({
+                          body: r.description,
+                          author: r.personId,
+                        }))
+                      : [],
+                  }
+                })
+              : [],
           }
-        : {},
+        : { messages: [] },
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => ({

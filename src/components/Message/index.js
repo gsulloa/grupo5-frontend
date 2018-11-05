@@ -53,16 +53,16 @@ class Message extends Component {
   }
 
   render() {
-    const { classes, replies } = this.props
+    const { classes, replies, author, body } = this.props
     return (
       <div>
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.pos} color="textSecondary">
-              {this.props.author}:
+              {author}:
             </Typography>
             <Typography className={classes.comment} component="p">
-              {this.props.body}
+              {body}
             </Typography>
             {replies.map(reply => {
               return (

@@ -16,7 +16,7 @@ export default function posts(state = initialState, { type, payload }) {
         ...state,
         data: {
           ...state.data,
-          [payload.messagesId]: payload.replies,
+          [payload.messageId]: payload.replies,
         },
       }
     case `${type}_FETCH_START`:
@@ -40,7 +40,7 @@ export default function posts(state = initialState, { type, payload }) {
 }
 
 function fetchReplies(api, { messageId }) {
-  return api.get(`/messages/${messageId}/replies`)
+  return api.get(`/messages/${messageId}/responses`)
 }
 
 export function getReplies({ messageId }) {

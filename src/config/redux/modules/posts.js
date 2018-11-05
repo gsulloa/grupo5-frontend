@@ -37,7 +37,11 @@ export default function posts(state = initialState, { type, payload }) {
 }
 
 function fetchPosts(api) {
-  return api.get("/posts")
+  return api.get("/services/175/posts")
+}
+
+function createPost(api, content) {
+  return api.post("/services/175/posts", content)
 }
 
 export function getPosts() {
@@ -49,6 +53,21 @@ export function getPosts() {
         type
       )
       dispatch(setPosts(response))
+    } catch (e) {
+      devlogerror(e)
+    }
+  }
+}
+
+export function addPost(content) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      await doFetch(
+        dispatch,
+        createPost(api.withToken(getState().auth.token), content),
+        type
+      )
+      dispatch(getPosts())
     } catch (e) {
       devlogerror(e)
     }

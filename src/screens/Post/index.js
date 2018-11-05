@@ -7,7 +7,8 @@ import { devlog } from "../../utils/log"
 import Message from "../../components/Message"
 import { push } from "connected-react-router"
 import routes from "../../config/routes"
-import { getMessages } from "../../config/redux/modules/messages"
+import { getMessages, addMessage } from "../../config/redux/modules/messages"
+import { TextField } from "@material-ui/core";
 
 const styles = () => ({})
 
@@ -17,43 +18,35 @@ class Post extends Component {
       this.props.goLogin()
     }
   }
+
+  state = {
+    text: "",
+  }
+  handleSubmit = e => {
+    e.preventDefault()
+    if (this.state.text !== "") {
+      this.props.addMessage({
+        postId: this.props.post.id,
+        content: this.state.text,
+      })
+      this.setState({
+        text: "",
+      })
+    }
+  }
+
   render() {
     devlog("Post", this.props)
-    // TODO: Use selected Post
-    const post = {
-      id: 1,
-      title: "Example post",
-      body:
-        "The world is full of obvious things which nobody by any chance ever observes.",
-      messages: [
-        {
-          id: 4,
-          author: "Jake",
-          body: "Boyle, they found one of the stolen paintings at her house.",
-          replies: [
-            {
-              id: 2,
-              author: "Boyle",
-              body:
-                "But she says she didn't know how it ended up there. She's being set up.",
-            },
-            {
-              id: 3,
-              author: "Jake",
-              body: "Framed! Art joke. Continue.",
-            },
-          ],
-        },
-      ],
-    }
+    const { post } = this.props
     return (
       <div>
         <Typography variant="h6">{post.title}</Typography>
-        <Typography variant="body1">{post.body}</Typography>
+        <Typography variant="body1">{post.description}</Typography>
         <br />
         {post.messages.map(msg => {
           return (
             <Message
+              {...msg}
               key={msg.id}
               author={msg.author}
               body={msg.body}
@@ -61,6 +54,18 @@ class Post extends Component {
             />
           )
         })}
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <TextField
+              required
+              label="Nuevo mensaje"
+              margin="normal"
+              fullWidth
+              value={this.state.text}
+              onChange={e => this.setState({ text: e.target.value })}
+            />
+          </form>
+        </div>
       </div>
     )
   }
@@ -70,10 +75,14 @@ Post.propTypes = {
   classes: PropTypes.object.isRequired,
   auth: PropTypes.bool,
   goLogin: PropTypes.func.isRequired,
+  getMessages: PropTypes.func.isRequired,
+  post: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const post = state.posts.data.find(e => e.id === ownProps.match.params.postId)
+  const post = state.posts.data.find(
+    e => e.id === Number(ownProps.match.params.postId)
+  )
   const fetching =
     state.posts.fetching && state.messages.fetching && state.replies.fetching
   return {
@@ -82,20 +91,31 @@ const mapStateToProps = (state, ownProps) => {
       post && !fetching
         ? {
             ...post,
-            messages: state.messages.data[post.id].map(message => {
-              return {
-                ...message,
-                replies: state.replies.data[message.id],
-              }
-            }),
+            messages: state.messages.data[post.id]
+              ? state.messages.data[post.id].map(message => {
+                  return {
+                    ...message,
+                    author: message.personId,
+                    body: message.description,
+                    replies: state.replies.data[message.id]
+                      ? state.replies.data[message.id].map(r => ({
+                          body: r.description,
+                          author: r.personId,
+                        }))
+                      : [],
+                  }
+                })
+              : [],
           }
-        : {},
+        : { messages: [] },
   }
 }
 const mapDispatchToProps = (dispatch, ownProps) => ({
   goLogin: () => dispatch(push(routes.loginPath)),
   getMessages: () =>
     dispatch(getMessages({ postId: ownProps.match.params.postId })),
+  addMessage: ({ content, postId }) =>
+    dispatch(addMessage({ content, postId })),
 })
 
 export default connect(

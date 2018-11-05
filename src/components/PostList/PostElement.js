@@ -13,11 +13,11 @@ const styles = theme => ({
   },
 })
 
-const PostElement = ({ classes, title, body, onClick, ...props }) => {
+const PostElement = ({ classes, title, description, onClick, ...props }) => {
   const shortBody =
-    body.length > MAX_SHORT_BODY_LENGTH
-      ? body.slice(0, MAX_SHORT_BODY_LENGTH) + "..."
-      : body
+    description.length > MAX_SHORT_BODY_LENGTH
+      ? description.slice(0, MAX_SHORT_BODY_LENGTH) + "..."
+      : description
   return (
     <ListItem className={classes.menuItem} onClick={onClick} {...props}>
       <ListItemText primary={title} secondary={shortBody} />

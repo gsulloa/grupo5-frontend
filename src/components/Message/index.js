@@ -6,6 +6,9 @@ import Card from "@material-ui/core/Card"
 import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import Divider from "@material-ui/core/Divider"
+import { connect } from "react-redux"
+import { addReply } from "../../config/redux/modules/replies"
+import { TextField } from "@material-ui/core";
 
 const styles = () => ({
   card: {
@@ -52,17 +55,33 @@ class Message extends Component {
     replies: [],
   }
 
+  state = {
+    text: "",
+  }
+  handleSubmit = e => {
+    e.preventDefault()
+    if (this.state.text !== "") {
+      this.props.addReply({
+        messageId: this.props.id,
+        content: this.state.text,
+      })
+      this.setState({
+        text: "",
+      })
+    }
+  }
+
   render() {
-    const { classes, replies } = this.props
+    const { classes, replies, author, body } = this.props
     return (
       <div>
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.pos} color="textSecondary">
-              {this.props.author}:
+              {author}:
             </Typography>
             <Typography className={classes.comment} component="p">
-              {this.props.body}
+              {body}
             </Typography>
             {replies.map(reply => {
               return (
@@ -72,6 +91,19 @@ class Message extends Component {
                 </div>
               )
             })}
+            <div>
+              <form onSubmit={this.handleSubmit}>
+                <TextField
+                  required
+                  label="Nueva respuesta"
+                  className={classes.textField}
+                  margin="normal"
+                  fullWidth
+                  value={this.state.text}
+                  onChange={e => this.setState({ text: e.target.value })}
+                />
+              </form>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -79,4 +111,12 @@ class Message extends Component {
   }
 }
 
-export default withStyles(styles)(Message)
+const mapDispatchToProps = dispatch => ({
+  addReply: ({ content, messageId }) =>
+    dispatch(addReply({ content, messageId })),
+})
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withStyles(styles)(Message))

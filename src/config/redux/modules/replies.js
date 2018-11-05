@@ -16,7 +16,7 @@ export default function posts(state = initialState, { type, payload }) {
         ...state,
         data: {
           ...state.data,
-          [payload.messagesId]: payload.replies,
+          [payload.messageId]: payload.replies,
         },
       }
     case `${type}_FETCH_START`:
@@ -40,7 +40,13 @@ export default function posts(state = initialState, { type, payload }) {
 }
 
 function fetchReplies(api, { messageId }) {
-  return api.get(`/messages/${messageId}/replies`)
+  return api.get(`/messages/${messageId}/responses`)
+}
+
+function createReply(api, { messageId, content }) {
+  return api.post(`/messages/${messageId}/responses`, {
+    description: content,
+  })
 }
 
 export function getReplies({ messageId }) {
@@ -52,6 +58,24 @@ export function getReplies({ messageId }) {
         type
       )
       dispatch(setReplies({ messageId, replies }))
+    } catch (e) {
+      devlogerror(e)
+    }
+  }
+}
+
+export function addReply({ content, messageId }) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      await doFetch(
+        dispatch,
+        createReply(api.withToken(getState().auth.token), {
+          content,
+          messageId,
+        }),
+        type
+      )
+      dispatch(getReplies({ messageId }))
     } catch (e) {
       devlogerror(e)
     }

@@ -9,15 +9,15 @@ const initialState = {
   data: {},
 }
 
-const SET_MESAGGES = "SET_MESAGGES"
+const SET_MESSAGES = "SET_MESSAGES"
 export default function posts(state = initialState, { type, payload }) {
   switch (type) {
-    case SET_MESAGGES:
+    case SET_MESSAGES:
       return {
         ...state,
         data: {
           ...state.data,
-          [payload.postId]: payload.messagesId,
+          [payload.postId]: payload.messages,
         },
       }
     case `${type}_FETCH_START`:
@@ -44,6 +44,12 @@ function fetchMessages(api, { postId }) {
   return api.get(`/posts/${postId}/messages`)
 }
 
+function createMessage(api, { content, postId }) {
+  return api.post(`/posts/${postId}/messages`, {
+    description: content,
+  })
+}
+
 export function getMessages({ postId }) {
   return async (dispatch, getState, { api }) => {
     try {
@@ -62,9 +68,27 @@ export function getMessages({ postId }) {
   }
 }
 
+export function addMessage({ content, postId }) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      await doFetch(
+        dispatch,
+        createMessage(api.withToken(getState().auth.token), {
+          content,
+          postId,
+        }),
+        type
+      )
+      dispatch(getMessages({ postId }))
+    } catch (e) {
+      devlogerror(e)
+    }
+  }
+}
+
 function setMessages({ postId, messages }) {
   return {
-    type: SET_MESAGGES,
+    type: SET_MESSAGES,
     payload: {
       postId,
       messages,

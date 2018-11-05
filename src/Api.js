@@ -17,13 +17,13 @@ export default class Api {
     }
   }
 
-  url = url => `${this.baseUrl}${url}`
+  url = url => `${url}${this.token ? `?access_token=${this.token}` : ""}`
   generateHeader = () => ({
     "Content-Type": "application/json",
     Authorization: this.token && `Bearer ${this.token}`,
   })
 
-  withToken = token => new Api(this.url, token)
+  withToken = token => new Api(this.baseUrl, token)
   generateInstance = () => {
     return axios.create({
       baseURL: this.baseUrl,
@@ -31,9 +31,9 @@ export default class Api {
     })
   }
   get = async (url, params) =>
-    this.request(this.generateInstance().get(url, { params }))
+    this.request(this.generateInstance().get(this.url(url), { params }))
   post = async (url, body) =>
-    this.request(this.generateInstance().post(url, body))
+    this.request(this.generateInstance().post(this.url(url), body))
   del = async url => this.request(this.generateInstance().delete(url))
   put = async (url, body) =>
     this.request(this.generateInstance().put(url, body))

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { withStyles } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
 import Divider from "@material-ui/core/Divider"
@@ -12,6 +13,8 @@ import MenuIcon from "@material-ui/icons/Menu"
 import PostList from "../PostList"
 import { devlog } from "../../utils/log"
 import "./index.css"
+import { push } from "connected-react-router"
+import routes from "../../config/routes"
 
 const drawerWidth = 280
 
@@ -86,7 +89,7 @@ class MainDrawer extends Component {
 
   userLogged = () => {
     // TODO: Check if user is logged
-    return true
+    return this.props.auth
   }
 
   render() {
@@ -183,6 +186,20 @@ MainDrawer.propTypes = {
       title: PropTypes.string,
     })
   ),
+  auth: PropTypes.bool,
+}
+MainDrawer.defaultProps = {
+  auth: false,
 }
 
-export default withStyles(styles)(MainDrawer)
+const mapStateToProps = state => ({
+  auth: state.auth.isAuthenticated,
+})
+const mapDispatchToProps = dispatch => ({
+  goLogin: () => dispatch(push(routes.loginPath)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MainDrawer))

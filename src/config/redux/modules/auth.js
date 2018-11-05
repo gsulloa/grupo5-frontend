@@ -46,17 +46,10 @@ export default function authentication(state = initialState, action) {
    api Fetchs
  */
 function login(api, body) {
-  return new Promise(resolve => {
-    devlog("Creds send: ", body)
-    return resolve({ token: "jsonweb.eyJ1c2VySWQiOjF9.token" })
-  })
-  //return api.post("/session", body)
+  return api.post("/people/login", body)
 }
 function register(api, data) {
-  return new Promise(resolve => {
-    return resolve({ token: "jsonweb.eyJ1c2VySWQiOjF9.token" })
-  })
-  //return api.post("/session", data)
+  return api.post("/session", data)
 }
 /*
   before Actions
@@ -65,15 +58,12 @@ export function loginUser(creds) {
   return async (dispatch, getState, api) => {
     try {
       const response = await doFetch(dispatch, login(api.api, creds), type)
-      const data = response.token.split(".")
-      const userInfo = JSON.parse(atob(data[1]))
       dispatch(
         receiveLogin(
           {
-            userId: userInfo.userId,
-            role: "user",
+            userId: response.userId,
           },
-          response.token
+          response.id
         )
       )
       dispatch(push(routes.homePath))

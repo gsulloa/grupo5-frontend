@@ -10,6 +10,7 @@ import Hidden from "@material-ui/core/Hidden"
 import Typography from "@material-ui/core/Typography"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
+import Button from "@material-ui/core/Button"
 import PostList from "../PostList"
 import { devlog } from "../../utils/log"
 import "./index.css"
@@ -17,6 +18,7 @@ import { push } from "connected-react-router"
 import routes from "../../config/routes"
 import { getPosts } from "../../config/redux/modules/posts"
 import { getMessages } from "../../config/redux/modules/messages"
+import { logoutUser } from "../../config/redux/modules/auth"
 
 const drawerWidth = 280
 
@@ -49,6 +51,9 @@ const styles = theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
+  },
+  grow: {
+    flexGrow: 1,
   },
 })
 
@@ -122,9 +127,17 @@ class MainDrawer extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
+            <Typography
+              variant="h6"
+              color="inherit"
+              noWrap
+              className={classes.grow}
+            >
               Arquitrán SpA
             </Typography>
+            <Button color="inherit" onClick={this.props.logout}>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
         <nav className={classes.drawer}>
@@ -183,6 +196,7 @@ MainDrawer.propTypes = {
   goToPost: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
   goPostCreate: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
 }
 MainDrawer.defaultProps = {
   auth: false,
@@ -195,6 +209,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   goLogin: () => dispatch(push(routes.loginPath)),
+  logout: () => dispatch(logoutUser()),
   getPosts: () => dispatch(getPosts()),
   goToPost: postId => dispatch(push(routes.postsPath(postId))),
   goPostCreate: () => dispatch(push(routes.newPostPath)),

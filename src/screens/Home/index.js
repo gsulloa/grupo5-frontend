@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { devlog } from "../../utils/log"
 import { push } from "connected-react-router"
 import routes from "../../config/routes"
+import { Typography } from "@material-ui/core";
 
 class Home extends Component {
   static propTypes = {
@@ -19,7 +20,7 @@ class Home extends Component {
     devlog("Home", this.props)
     return (
       <div>
-        <h1>React Template</h1>
+        <Typography variant="h3">Bienvenido a Arquitran SpA</Typography>
       </div>
     )
   }

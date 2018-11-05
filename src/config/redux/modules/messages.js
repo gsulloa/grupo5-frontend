@@ -1,5 +1,6 @@
 import doFetch from "./fetching"
 import { devlogerror } from "../../../utils/log"
+import { getReplies } from "./replies"
 
 const type = "MESSAGE"
 const initialState = {
@@ -52,6 +53,9 @@ export function getMessages({ postId }) {
         type
       )
       dispatch(setMessages({ postId, messages }))
+      messages.forEach(message => {
+        dispatch(getReplies({ messageId: message.id }))
+      })
     } catch (e) {
       devlogerror(e)
     }

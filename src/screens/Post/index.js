@@ -5,8 +5,9 @@ import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import { devlog } from "../../utils/log"
 import Message from "../../components/Message"
-import { push } from "connected-react-router";
-import routes from "../../config/routes";
+import { push } from "connected-react-router"
+import routes from "../../config/routes"
+import { getMessages } from "../../config/redux/modules/messages"
 
 const styles = () => ({})
 
@@ -71,11 +72,30 @@ Post.propTypes = {
   goLogin: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = state => ({
-  auth: state.auth.isAuthenticated,
-})
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = (state, ownProps) => {
+  const post = state.posts.data.find(e => e.id === ownProps.match.params.postId)
+  const fetching =
+    state.posts.fetching && state.messages.fetching && state.replies.fetching
+  return {
+    auth: state.auth.isAuthenticated,
+    post:
+      post && !fetching
+        ? {
+            ...post,
+            messages: state.messages.data[post.id].map(message => {
+              return {
+                ...message,
+                replies: state.replies.data[message.id],
+              }
+            }),
+          }
+        : {},
+  }
+}
+const mapDispatchToProps = (dispatch, ownProps) => ({
   goLogin: () => dispatch(push(routes.loginPath)),
+  getMessages: () =>
+    dispatch(getMessages({ postId: ownProps.match.params.postId })),
 })
 
 export default connect(

@@ -1,20 +1,23 @@
 import doFetch from "./fetching"
 import { devlogerror } from "../../../utils/log"
 
-const type = "POST"
+const type = "MESSAGE"
 const initialState = {
   fetching: false,
   error: false,
-  data: [],
+  data: {},
 }
 
-const SET_POSTS = "SET_POSTS"
+const SET_MESAGGES = "SET_MESAGGES"
 export default function posts(state = initialState, { type, payload }) {
   switch (type) {
-    case SET_POSTS:
+    case SET_MESAGGES:
       return {
         ...state,
-        data: payload,
+        data: {
+          ...state.data,
+          [payload.postId]: payload.messagesId,
+        },
       }
     case `${type}_FETCH_START`:
       return {
@@ -36,28 +39,31 @@ export default function posts(state = initialState, { type, payload }) {
   }
 }
 
-function fetchPosts(api) {
-  return api.get("/posts")
+function fetchMessages(api, { postId }) {
+  return api.get(`/posts/${postId}/messages`)
 }
 
-export function getPosts() {
+export function getMessages({ postId }) {
   return async (dispatch, getState, { api }) => {
     try {
-      const response = await doFetch(
+      const messages = await doFetch(
         dispatch,
-        fetchPosts(api.withToken(getState().auth.token)),
+        fetchMessages(api.withToken(getState().auth.token), { postId }),
         type
       )
-      dispatch(setPosts(response))
+      dispatch(setMessages({ postId, messages }))
     } catch (e) {
       devlogerror(e)
     }
   }
 }
 
-function setPosts(posts) {
+function setMessages({ postId, messages }) {
   return {
-    type: SET_POSTS,
-    payload: posts,
+    type: SET_MESAGGES,
+    payload: {
+      postId,
+      messages,
+    },
   }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import { withStyles } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
 import Divider from "@material-ui/core/Divider"
@@ -86,7 +87,7 @@ class MainDrawer extends Component {
 
   userLogged = () => {
     // TODO: Check if user is logged
-    return true
+    return this.props.auth
   }
 
   render() {
@@ -183,6 +184,14 @@ MainDrawer.propTypes = {
       title: PropTypes.string,
     })
   ),
+  auth: PropTypes.bool,
+}
+MainDrawer.defaultProps = {
+  auth: false,
 }
 
-export default withStyles(styles)(MainDrawer)
+const mapStateToProps = state => ({
+  auth: state.auth.isAuthenticated,
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(MainDrawer))

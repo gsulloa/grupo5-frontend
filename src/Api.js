@@ -2,23 +2,28 @@ import { devlog } from "./utils/log"
 import axios from "axios"
 
 export default class Api {
-  constructor(baseUrl) {
+  constructor(baseUrl, token) {
     this.baseUrl = baseUrl
+    this.token = token
   }
+
   request = async request => {
     try {
       const response = await request
       return response.data
     } catch (err) {
       devlog("API error", err)
-      return err
+      throw err
     }
   }
 
   url = url => `${this.baseUrl}${url}`
   generateHeader = () => ({
     "Content-Type": "application/json",
+    Authorization: this.token && `Bearer ${this.token}`,
   })
+
+  withToken = token => new Api(this.url, token)
   generateInstance = () => {
     return axios.create({
       baseURL: this.baseUrl,

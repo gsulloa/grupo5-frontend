@@ -3,6 +3,7 @@ import { persistReducer } from "redux-persist"
 import { connectRouter } from "connected-react-router"
 
 import auth from "./modules/auth"
+import posts from "./modules/posts"
 
 function configureReducers({ storage, history }) {
   const persistConfig = {
@@ -14,6 +15,7 @@ function configureReducers({ storage, history }) {
 
   const combinedReducer = combineReducers({
     auth,
+    posts,
   })
   const rootReducer = (state, action) => {
     if (action.type === "RESET") {

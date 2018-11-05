@@ -7,7 +7,7 @@ import { devlog } from "../../utils/log"
 import Message from "../../components/Message"
 import { push } from "connected-react-router"
 import routes from "../../config/routes"
-import { getMessages } from "../../config/redux/modules/messages"
+import { getMessages, addMessage } from "../../config/redux/modules/messages"
 
 const styles = () => ({})
 
@@ -17,6 +17,23 @@ class Post extends Component {
       this.props.goLogin()
     }
   }
+
+  state = {
+    text: "",
+  }
+  handleSubmit = e => {
+    e.preventDefault()
+    if (this.state.text !== "") {
+      this.props.addMessage({
+        postId: this.props.post.id,
+        content: this.state.text,
+      })
+      this.setState({
+        text: "",
+      })
+    }
+  }
+
   render() {
     devlog("Post", this.props)
     const { post } = this.props
@@ -36,6 +53,15 @@ class Post extends Component {
             />
           )
         })}
+        <div>
+          <form onSubmit={this.handleSubmit}>
+            <label>Nuevo mensaje</label>
+            <input
+              value={this.state.text}
+              onChange={e => this.setState({ text: e.target.value })}
+            />
+          </form>
+        </div>
       </div>
     )
   }
@@ -84,6 +110,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   goLogin: () => dispatch(push(routes.loginPath)),
   getMessages: () =>
     dispatch(getMessages({ postId: ownProps.match.params.postId })),
+  addMessage: ({ content, postId }) =>
+    dispatch(addMessage({ content, postId })),
 })
 
 export default connect(

@@ -103,7 +103,11 @@ class MainDrawer extends Component {
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <PostList posts={this.props.posts} onPostClick={this.selectPost} />
+        <PostList
+          posts={this.props.posts}
+          onPostClick={this.selectPost}
+          goPostCreate={this.props.goPostCreate}
+        />
       </div>
     )
     return (
@@ -178,6 +182,7 @@ MainDrawer.propTypes = {
   getPosts: PropTypes.func.isRequired,
   goToPost: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
+  goPostCreate: PropTypes.func.isRequired,
 }
 MainDrawer.defaultProps = {
   auth: false,
@@ -192,6 +197,7 @@ const mapDispatchToProps = dispatch => ({
   goLogin: () => dispatch(push(routes.loginPath)),
   getPosts: () => dispatch(getPosts()),
   goToPost: postId => dispatch(push(routes.postsPath(postId))),
+  goPostCreate: () => dispatch(push(routes.newPostPath)),
   getMessages: ({ postId }) => dispatch(getMessages({ postId })),
 })
 

@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { withStyles } from "@material-ui/core/styles"
 import PostElement from "./PostElement"
-import { List } from "@material-ui/core"
+import { List, ListItem, ListItemText } from "@material-ui/core"
 
 const styles = theme => ({
   container: {
@@ -10,11 +10,9 @@ const styles = theme => ({
     flexFlow: "column nowrap",
   },
   menuItem: {
+    cursor: "pointer",
     "&:focus": {
       backgroundColor: theme.palette.primary.main,
-      "& $primary, & $icon": {
-        color: theme.palette.common.white,
-      },
     },
   },
   menuList: {
@@ -47,9 +45,15 @@ class PostList extends Component {
   }
 
   render() {
-    const { posts, selected } = this.props
+    const { posts, selected, classes } = this.props
     return (
       <List>
+        <ListItem
+          className={classes.menuItem}
+          onClick={this.props.goPostCreate}
+        >
+          <ListItemText primary={"+ Crear Nuevo Post"} />
+        </ListItem>
         {posts.map(post => {
           return (
             <PostElement

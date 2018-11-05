@@ -44,7 +44,7 @@ class Navigator extends Component {
         <MainDrawer>
           <Switch>
             <Route exact path={routes.homePath} component={Home} />
-            <Route exact path={routes.postsPath} component={Post} />
+            <Route exact path={routes.postsPath()} component={Post} />
             <Route exact path={routes.login} component={Login} />
             <Route component={NotFound} title="Not found" />
           </Switch>

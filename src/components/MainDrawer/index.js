@@ -15,6 +15,7 @@ import { devlog } from "../../utils/log"
 import "./index.css"
 import { push } from "connected-react-router"
 import routes from "../../config/routes"
+import { getPosts } from "../../config/redux/modules/posts"
 
 const drawerWidth = 280
 
@@ -59,17 +60,7 @@ class MainDrawer extends Component {
   }
 
   componentDidMount() {
-    this.fetchPosts()
-  }
-
-  fetchPosts = () => {
-    // TODO: Receive posts from API
-    const posts = Array(5)
-      .fill(0)
-      .map((_, index) => {
-        return { id: index, title: "Titulo", body: "Body" }
-      })
-    this.setState({ posts })
+    this.props.getPosts()
   }
 
   handleChange = event => {
@@ -110,12 +101,7 @@ class MainDrawer extends Component {
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <PostList
-          posts={this.state.posts.map(post => {
-            return { ...post }
-          })}
-          onPostClick={this.selectPost}
-        />
+        <PostList posts={this.props.posts} onPostClick={this.selectPost} />
       </div>
     )
     return (
@@ -187,16 +173,20 @@ MainDrawer.propTypes = {
     })
   ),
   auth: PropTypes.bool,
+  getPosts: PropTypes.func.isRequired,
 }
 MainDrawer.defaultProps = {
   auth: false,
+  posts: [],
 }
 
 const mapStateToProps = state => ({
   auth: state.auth.isAuthenticated,
+  posts: state.posts.data,
 })
 const mapDispatchToProps = dispatch => ({
   goLogin: () => dispatch(push(routes.loginPath)),
+  getPosts: () => dispatch(getPosts()),
 })
 
 export default connect(

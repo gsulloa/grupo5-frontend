@@ -44,6 +44,12 @@ function fetchMessages(api, { postId }) {
   return api.get(`/posts/${postId}/messages`)
 }
 
+function createMessage(api, { content, postId }) {
+  return api.post(`/posts/${postId}/messages`, {
+    description: content,
+  })
+}
+
 export function getMessages({ postId }) {
   return async (dispatch, getState, { api }) => {
     try {
@@ -56,6 +62,24 @@ export function getMessages({ postId }) {
       messages.forEach(message => {
         dispatch(getReplies({ messageId: message.id }))
       })
+    } catch (e) {
+      devlogerror(e)
+    }
+  }
+}
+
+export function addMessage({ content, postId }) {
+  return async (dispatch, getState, { api }) => {
+    try {
+      await doFetch(
+        dispatch,
+        createMessage(api.withToken(getState().auth.token), {
+          content,
+          postId,
+        }),
+        type
+      )
+      dispatch(getMessages({ postId }))
     } catch (e) {
       devlogerror(e)
     }

@@ -23,11 +23,12 @@ class Post extends Component {
     return (
       <div>
         <Typography variant="h6">{post.title}</Typography>
-        <Typography variant="body1">{post.body}</Typography>
+        <Typography variant="body1">{post.description}</Typography>
         <br />
         {post.messages.map(msg => {
           return (
             <Message
+              {...msg}
               key={msg.id}
               author={msg.author}
               body={msg.body}
@@ -63,9 +64,10 @@ const mapStateToProps = (state, ownProps) => {
             messages: state.messages.data[post.id]
               ? state.messages.data[post.id].map(message => {
                   return {
+                    ...message,
                     author: message.personId,
                     body: message.description,
-                    replies: state.messages.data[post.id]
+                    replies: state.replies.data[message.id]
                       ? state.replies.data[message.id].map(r => ({
                           body: r.description,
                           author: r.personId,

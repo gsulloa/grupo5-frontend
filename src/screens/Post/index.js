@@ -5,14 +5,17 @@ import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import { devlog } from "../../utils/log"
 import Message from "../../components/Message"
-
-const mapStateToProps = () => ({})
-
-const mapDispatchToProps = {}
+import { push } from "connected-react-router";
+import routes from "../../config/routes";
 
 const styles = () => ({})
 
 class Post extends Component {
+  componentDidMount() {
+    if (!this.props.auth) {
+      this.props.goLogin()
+    }
+  }
   render() {
     devlog("Post", this.props)
     // TODO: Use selected Post
@@ -64,7 +67,16 @@ class Post extends Component {
 
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
+  auth: PropTypes.bool,
+  goLogin: PropTypes.func.isRequired,
 }
+
+const mapStateToProps = state => ({
+  auth: state.auth.isAuthenticated,
+})
+const mapDispatchToProps = dispatch => ({
+  goLogin: () => dispatch(push(routes.loginPath)),
+})
 
 export default connect(
   mapStateToProps,

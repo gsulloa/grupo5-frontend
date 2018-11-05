@@ -13,6 +13,8 @@ import MenuIcon from "@material-ui/icons/Menu"
 import PostList from "../PostList"
 import { devlog } from "../../utils/log"
 import "./index.css"
+import { push } from "connected-react-router"
+import routes from "../../config/routes"
 
 const drawerWidth = 280
 
@@ -193,5 +195,11 @@ MainDrawer.defaultProps = {
 const mapStateToProps = state => ({
   auth: state.auth.isAuthenticated,
 })
+const mapDispatchToProps = dispatch => ({
+  goLogin: () => dispatch(push(routes.loginPath)),
+})
 
-export default connect(mapStateToProps)(withStyles(styles)(MainDrawer))
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(MainDrawer))

@@ -9,6 +9,8 @@ import "./index.css"
 import { devlog } from "../../utils/log"
 import { Typography } from "@material-ui/core"
 import { loginUser, registerUser } from "../../config/redux/modules/auth"
+import { push } from "connected-react-router";
+import routes from "../../config/routes";
 
 const styles = theme => ({
   container: {
@@ -43,11 +45,19 @@ class Login extends Component {
     classes: PropTypes.object.isRequired,
     loginUser: PropTypes.func.isRequired,
     registerUser: PropTypes.func.isRequired,
+    auth: PropTypes.bool.isRequired,
+    goHome: PropTypes.func.isRequired,
   }
   constructor(props) {
     super(props)
     this.state = {
       register: statuses.login,
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.auth) {
+      this.props.goHome()
     }
   }
 
@@ -129,13 +139,18 @@ class Login extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+  auth: state.auth.isAuthenticated,
+})
+
 const mapDispatchToProps = dispatch => ({
   loginUser: ({ email, password }) => dispatch(loginUser({ email, password })),
   registerUser: ({ email, password, name, lastName }) =>
     dispatch(registerUser({ email, password, name, lastName })),
+  goHome: () => dispatch(push(routes.homePath)),
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(Login))

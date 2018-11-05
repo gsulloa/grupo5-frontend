@@ -13,7 +13,7 @@ import MainDrawer from "./components/MainDrawer"
 import routes from "./config/routes"
 import withRoot from "./withRoot"
 
-const siteTitle = title => (title ? `RT | ${title}` : "React Template")
+const siteTitle = title => (title ? `RT | ${title}` : "Arquitran SpA")
 
 const Route = props => (
   <div>

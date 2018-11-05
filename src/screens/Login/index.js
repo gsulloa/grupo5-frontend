@@ -9,8 +9,8 @@ import "./index.css"
 import { devlog } from "../../utils/log"
 import { Typography } from "@material-ui/core"
 import { loginUser, registerUser } from "../../config/redux/modules/auth"
-import { push } from "connected-react-router";
-import routes from "../../config/routes";
+import { push } from "connected-react-router"
+import routes from "../../config/routes"
 
 const styles = theme => ({
   container: {

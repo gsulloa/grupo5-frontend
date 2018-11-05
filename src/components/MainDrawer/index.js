@@ -60,7 +60,7 @@ class MainDrawer extends Component {
   }
 
   componentDidMount() {
-    this.props.getPosts()
+    if (this.props.auth) this.props.getPosts()
   }
 
   handleChange = event => {
@@ -75,7 +75,7 @@ class MainDrawer extends Component {
 
   selectPost = post => {
     devlog("Selecting post", post)
-    this.setState({ post })
+    this.props.goToPost(post.id)
   }
 
   userLogged = () => {
@@ -174,6 +174,7 @@ MainDrawer.propTypes = {
   ),
   auth: PropTypes.bool,
   getPosts: PropTypes.func.isRequired,
+  goToPost: PropTypes.func.isRequired,
 }
 MainDrawer.defaultProps = {
   auth: false,
@@ -187,6 +188,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   goLogin: () => dispatch(push(routes.loginPath)),
   getPosts: () => dispatch(getPosts()),
+  goToPost: postId => dispatch(push(routes.postsPath(postId))),
 })
 
 export default connect(

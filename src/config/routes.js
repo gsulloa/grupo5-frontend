@@ -3,5 +3,5 @@ export default {
   homePath: realPath("/"),
   customPath: path => realPath(path),
   loginPath: realPath("/login"),
-  postsPath: realPath("/posts"),
+  postsPath: (postId = ":postId") => realPath(`/posts/${postId}`),
 }

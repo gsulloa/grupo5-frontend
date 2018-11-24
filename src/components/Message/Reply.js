@@ -29,7 +29,8 @@ const styles = theme => ({
 class Reply extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
-    author: PropTypes.string.isRequired,
+    matchAuthor: PropTypes.func.isRequired,
+    author: PropTypes.number.isRequired,
     body: PropTypes.string,
   }
   static defaultProps = {
@@ -49,7 +50,7 @@ class Reply extends Component {
   }
 
   render() {
-    const { classes, body, author } = this.props
+    const { classes, body, author, matchAuthor } = this.props
     const shortBody =
       body.length > MAX_SHORT_REPLY_BODY_LENGTH
         ? body.slice(0, MAX_SHORT_REPLY_BODY_LENGTH)
@@ -57,7 +58,7 @@ class Reply extends Component {
     return (
       <div className={classes.container}>
         <Typography className={classes.author} color="textSecondary">
-          {author}:
+          {matchAuthor(author)}:
         </Typography>
         <Typography className={classes.comment}>
           {this.state.showMore ? body : shortBody}

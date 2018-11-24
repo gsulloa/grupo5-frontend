@@ -1,14 +1,15 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
+import { push } from "connected-react-router"
 import { withStyles } from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
+import { TextField } from "@material-ui/core"
 import { devlog } from "../../utils/log"
 import Message from "../../components/Message"
-import { push } from "connected-react-router"
 import routes from "../../config/routes"
 import { getMessages, addMessage } from "../../config/redux/modules/messages"
-import { TextField } from "@material-ui/core";
+import { getPeople } from "../../config/redux/modules/people"
 
 const styles = () => ({})
 
@@ -35,6 +36,12 @@ class Post extends Component {
     }
   }
 
+  matchAuthor = authorId => {
+    const { people } = this.props
+    const person = people[authorId]
+    return person.email
+  }
+
   render() {
     devlog("Post", this.props)
     const { post } = this.props
@@ -51,6 +58,7 @@ class Post extends Component {
               author={msg.author}
               body={msg.body}
               replies={msg.replies}
+              matchAuthor={this.matchAuthor}
             />
           )
         })}
@@ -76,17 +84,22 @@ Post.propTypes = {
   auth: PropTypes.bool,
   goLogin: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
+  getPeople: PropTypes.func.isRequired,
   post: PropTypes.object,
+  people: PropTypes.object,
 }
 
 const mapStateToProps = (state, ownProps) => {
   const post = state.posts.data.find(
     e => e.id === Number(ownProps.match.params.postId)
   )
+  const people = {}
+  state.people.data.map(person => (people[person.id] = person))
   const fetching =
     state.posts.fetching && state.messages.fetching && state.replies.fetching
   return {
     auth: state.auth.isAuthenticated,
+    people,
     post:
       post && !fetching
         ? {
@@ -112,6 +125,7 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = (dispatch, ownProps) => ({
   goLogin: () => dispatch(push(routes.loginPath)),
+  getPeople: () => dispatch(getPeople()),
   getMessages: () =>
     dispatch(getMessages({ postId: ownProps.match.params.postId })),
   addMessage: ({ content, postId }) =>

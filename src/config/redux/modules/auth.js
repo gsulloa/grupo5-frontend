@@ -2,7 +2,7 @@ import { push } from "react-router-redux"
 import doFetch from "./fetching"
 import { devlog, devlogerror } from "../../../utils/log"
 import routes from "../../routes"
-import { getPosts } from "./posts";
+import { getPosts } from "./posts"
 
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS"

@@ -41,7 +41,8 @@ class Message extends Component {
   static propTypes = {
     classes: PropTypes.object.isRequired,
     children: PropTypes.arrayOf(PropTypes.element),
-    author: PropTypes.string.isRequired,
+    matchAuthor: PropTypes.func.isRequired,
+    author: PropTypes.number.isRequired,
     body: PropTypes.string.isRequired,
     replies: PropTypes.arrayOf(
       PropTypes.shape({
@@ -72,13 +73,13 @@ class Message extends Component {
   }
 
   render() {
-    const { classes, replies, author, body } = this.props
+    const { classes, replies, author, body, matchAuthor } = this.props
     return (
       <div>
         <Card className={classes.card}>
           <CardContent>
             <Typography className={classes.pos} color="textSecondary">
-              {author}:
+              {matchAuthor(author)}:
             </Typography>
             <Typography className={classes.comment} component="p">
               {body}
@@ -86,7 +87,7 @@ class Message extends Component {
             {replies.map(reply => {
               return (
                 <div key={reply.id}>
-                  <Reply {...reply} />
+                  <Reply {...reply} matchAuthor={matchAuthor} />
                   <Divider className={classes.separator} />
                 </div>
               )

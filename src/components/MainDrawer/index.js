@@ -18,6 +18,7 @@ import { push } from "connected-react-router"
 import routes from "../../config/routes"
 import { getPosts } from "../../config/redux/modules/posts"
 import { getMessages } from "../../config/redux/modules/messages"
+import { getPeople } from "../../config/redux/modules/people"
 import { logoutUser } from "../../config/redux/modules/auth"
 
 const drawerWidth = 280
@@ -83,6 +84,7 @@ class MainDrawer extends Component {
     devlog("Selecting post", post)
     this.props.goToPost(post.id)
     this.props.getMessages({ postId: post.id })
+    this.props.getPeople()
   }
 
   userLogged = () => {
@@ -195,6 +197,7 @@ MainDrawer.propTypes = {
   getPosts: PropTypes.func.isRequired,
   goToPost: PropTypes.func.isRequired,
   getMessages: PropTypes.func.isRequired,
+  getPeople: PropTypes.func.isRequired,
   goPostCreate: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
 }
@@ -214,6 +217,7 @@ const mapDispatchToProps = dispatch => ({
   goToPost: postId => dispatch(push(routes.postsPath(postId))),
   goPostCreate: () => dispatch(push(routes.newPostPath)),
   getMessages: ({ postId }) => dispatch(getMessages({ postId })),
+  getPeople: () => dispatch(getPeople()),
 })
 
 export default connect(

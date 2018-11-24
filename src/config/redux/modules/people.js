@@ -48,7 +48,11 @@ export function getPeople() {
         fetchPeople(api.withToken(getState().auth.token)),
         type
       )
-      dispatch(setPeople(response))
+      const people = response.reduce((all, person) => {
+        all[person.id] = person
+        return all
+      }, {})
+      dispatch(setPeople(people))
     } catch (e) {
       devlogerror(e)
     }

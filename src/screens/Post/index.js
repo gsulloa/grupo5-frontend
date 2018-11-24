@@ -38,7 +38,7 @@ class Post extends Component {
 
   matchAuthor = authorId => {
     const { people } = this.props
-    const person = people[authorId]
+    const person = people[authorId] ? people[authorId] : { email: authorId }
     return person.email
   }
 
@@ -93,13 +93,11 @@ const mapStateToProps = (state, ownProps) => {
   const post = state.posts.data.find(
     e => e.id === Number(ownProps.match.params.postId)
   )
-  const people = {}
-  state.people.data.map(person => (people[person.id] = person))
   const fetching =
     state.posts.fetching && state.messages.fetching && state.replies.fetching
   return {
     auth: state.auth.isAuthenticated,
-    people,
+    people: state.people.data,
     post:
       post && !fetching
         ? {

@@ -15,7 +15,7 @@ const Search = ({ handleSearch, query, results }) => {
     >
       <SearchInput onSearch={handleSearch} query={query} />
       {results.length > 0 ? (
-        results.map((result, i) => <p key={i}>{result}</p>)
+        results.map((result, i) => <p key={i}>{JSON.stringify(result)}</p>)
       ) : (
         <p>No resu</p>
       )}

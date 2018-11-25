@@ -10,6 +10,7 @@ import Hidden from "@material-ui/core/Hidden"
 import Typography from "@material-ui/core/Typography"
 import IconButton from "@material-ui/core/IconButton"
 import MenuIcon from "@material-ui/icons/Menu"
+import SearchIcon from "@material-ui/icons/Search"
 import Button from "@material-ui/core/Button"
 import PostList from "../PostList"
 import { devlog } from "../../utils/log"
@@ -137,6 +138,9 @@ class MainDrawer extends Component {
             >
               Arquitrán SpA
             </Typography>
+            <IconButton color="inherit" onClick={this.props.goToSearch}>
+              <SearchIcon />
+            </IconButton>
             <Button color="inherit" onClick={this.props.logout}>
               Logout
             </Button>
@@ -215,6 +219,7 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logoutUser()),
   getPosts: () => dispatch(getPosts()),
   goToPost: postId => dispatch(push(routes.postsPath(postId))),
+  goToSearch: () => dispatch(push(routes.searchPath)),
   goPostCreate: () => dispatch(push(routes.newPostPath)),
   getMessages: ({ postId }) => dispatch(getMessages({ postId })),
   getPeople: () => dispatch(getPeople()),

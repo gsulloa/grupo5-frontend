@@ -13,6 +13,7 @@ import MainDrawer from "./components/MainDrawer"
 
 import routes from "./config/routes"
 import withRoot from "./withRoot"
+import Search from "./screens/Search";
 
 const siteTitle = title => (title ? `RT | ${title}` : "Arquitran SpA")
 
@@ -47,7 +48,8 @@ class Navigator extends Component {
             <Route exact path={routes.homePath} component={Home} />
             <Route exact path={routes.postsPath()} component={Post} />
             <Route exact path={routes.newPostPath} component={NewPost} />
-            <Route exact path={routes.login} component={Login} />
+            <Route exact path={routes.searchPath} component={Search} />
+            <Route exact path={routes.loginPath} component={Login} />
             <Route component={NotFound} title="Not found" />
           </Switch>
         </MainDrawer>

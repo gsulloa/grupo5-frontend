@@ -29,10 +29,10 @@ class Search extends Component {
   render() {
     devlog("Search", this.props)
     const { q: query } = parse(this.props.location.search)
-    const { results } = this.props
+    const { results, goPost } = this.props
     return (
       <div>
-        <SearchComponent handleSearch={this.handleSearch} query={query} results={results}/>
+        <SearchComponent handleSearch={this.handleSearch} query={query} results={results} goPost={goPost}/>
       </div>
     )
   }
@@ -77,6 +77,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
   goLogin: () => dispatch(push(routes.loginPath)),
+  goPost: postId => dispatch(push(routes.postsPath(postId))),
   search: q => dispatch(push(`${routes.searchPath}${q ? `?q=${q}` : ""}`))
 })
 

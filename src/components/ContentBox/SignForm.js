@@ -34,7 +34,7 @@ class SignForm extends Component {
     password: "",
     name: "",
     lastName: "",
-    api: "",
+    api: "/api",
 }
   onWrite = (key, val) => {
     this.setState({
@@ -109,8 +109,8 @@ class SignForm extends Component {
           name="api"
           className={classes.select}
         >
-          <MenuItem value={"/g3"}>Group 51</MenuItem>
-          <MenuItem value={""}>Group 3</MenuItem>
+          <MenuItem value={"/api"}>Group 51</MenuItem>
+          <MenuItem value={"/api/g3"}>Group 3</MenuItem>
         </Select>
         <CardActions className={classes.action}>
           <Button type="submit" color="primary" variant="outlined">

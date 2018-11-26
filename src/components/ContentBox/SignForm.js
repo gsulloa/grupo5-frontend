@@ -4,8 +4,9 @@ import { withStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import CardActions from "@material-ui/core/CardActions"
 import Button from "@material-ui/core/Button"
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/Select";
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const styles = theme => ({
   textField: {
@@ -20,7 +21,10 @@ const styles = theme => ({
   action: {
     display: "flex",
     justifyContent: "center",
-    flexWrap: "wrap",
+  },
+  inputLabel: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
   },
 })
 
@@ -31,7 +35,7 @@ class SignForm extends Component {
     name: "",
     lastName: "",
     api: 5,
-  }
+}
   onWrite = (key, val) => {
     this.setState({
       [key]: val,
@@ -45,7 +49,7 @@ class SignForm extends Component {
   render() {
     const { classes, submit, register } = this.props
     return (
-      <form noValidate onSubmit={this.handleSubmit}>
+      <form noValidate onSubmit={this.handleSubmit} className={classes.root}>
         <TextField
           required
           label="Email"
@@ -96,6 +100,7 @@ class SignForm extends Component {
             onChange={e => this.onWrite("lastName", e.target.value)}
           />
         )}
+        <InputLabel className={classes.inputLabel}>API</InputLabel>
         <Select
           required
           value={this.state.api}
@@ -104,8 +109,8 @@ class SignForm extends Component {
           name="api"
           className={classes.select}
         >
-          <MenuItem value={10}>Group 51</MenuItem>
-          <MenuItem value={20}>Group 3</MenuItem>
+          <MenuItem value={5}>Group 51</MenuItem>
+          <MenuItem value={3}>Group 3</MenuItem>
         </Select>
         <CardActions className={classes.action}>
           <Button type="submit" color="primary" variant="outlined">

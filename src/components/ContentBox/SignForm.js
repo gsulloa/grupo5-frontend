@@ -109,8 +109,8 @@ class SignForm extends Component {
           name="api"
           className={classes.select}
         >
-          <MenuItem value={5}>Group 51</MenuItem>
-          <MenuItem value={3}>Group 3</MenuItem>
+          <MenuItem value={"/api"}>Group 5</MenuItem>
+          <MenuItem value={"/api/g3"}>Group 3</MenuItem>
         </Select>
         <CardActions className={classes.action}>
           <Button type="submit" color="primary" variant="outlined">

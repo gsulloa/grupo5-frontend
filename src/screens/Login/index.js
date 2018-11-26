@@ -144,9 +144,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  loginUser: ({ email, password }) => dispatch(loginUser({ email, password })),
-  registerUser: ({ email, password, name, lastName }) =>
-    dispatch(registerUser({ email, password, name, lastName })),
+  loginUser: ({ email, password, api }) => dispatch(loginUser({ email, password, api })),
+  registerUser: ({ email, password, name, lastName, api }) =>
+    dispatch(registerUser({ email, password, name, lastName, api })),
   goHome: () => dispatch(push(routes.homePath)),
 })
 

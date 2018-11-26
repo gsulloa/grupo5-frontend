@@ -46,15 +46,12 @@ export default function authentication(state = initialState, action) {
 /*
    api Fetchs
  */
-function login(api, body) {
-  return api.post("/people/login", body)
+function login(api, { email, password, api: apiPrefix }) {
+  return api.post(`${apiPrefix}/people/login`, { email, password })
 }
-function register(api, data) {
+function register(api, { api: apiPrefix, ...data}) {
   return api
-    .withToken(
-      "4G0LNevKjY6SQz7C8IVJIsWUbxS0OtBA1F5EfPrq1xfnjXDOU6EgwAkQjDomQ4E1"
-    )
-    .post("/services/175/people", data)
+    .post(`${apiPrefix}/people`, data)
 }
 /*
   before Actions
@@ -67,6 +64,7 @@ export function loginUser(creds) {
         receiveLogin(
           {
             userId: response.userId,
+            apiPrefix: creds.api
           },
           response.id
         )
@@ -87,6 +85,7 @@ export function registerUser(registerData) {
         loginUser({
           email: registerData.email,
           password: registerData.password,
+          api: registerData.api,
         })
       )
     } catch (e) {

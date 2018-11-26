@@ -36,12 +36,12 @@ export default function posts(state = initialState, { type, payload }) {
   }
 }
 
-function fetchPosts(api) {
-  return api.get("/services/175/posts")
+function fetchPosts(api, { apiPrefix }) {
+  return api.get(`${apiPrefix}/posts`)
 }
 
-function createPost(api, content) {
-  return api.post("/services/175/posts", content)
+function createPost(api, { apiPrefix, ...content}) {
+  return api.post(`${apiPrefix}/posts`, content)
 }
 
 export function getPosts() {
@@ -49,7 +49,8 @@ export function getPosts() {
     try {
       const response = await doFetch(
         dispatch,
-        fetchPosts(api.withToken(getState().auth.token)),
+        fetchPosts(api.withToken(getState().auth.token), {
+          apiPrefix: getState().auth.data.apiPrefix}),
         type
       )
       dispatch(setPosts(response))
@@ -64,7 +65,10 @@ export function addPost(content) {
     try {
       await doFetch(
         dispatch,
-        createPost(api.withToken(getState().auth.token), content),
+        createPost(api.withToken(getState().auth.token), {
+          ...content,
+          apiPrefix: getState().auth.data.apiPrefix
+        }),
         type
       )
       dispatch(getPosts())

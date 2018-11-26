@@ -39,12 +39,12 @@ export default function posts(state = initialState, { type, payload }) {
   }
 }
 
-function fetchReplies(api, { messageId }) {
-  return api.get(`/messages/${messageId}/responses`)
+function fetchReplies(api, { messageId, apiPrefix }) {
+  return api.get(`${apiPrefix}/messages/${messageId}/responses`)
 }
 
-function createReply(api, { messageId, content }) {
-  return api.post(`/messages/${messageId}/responses`, {
+function createReply(api, { messageId, content, apiPrefix }) {
+  return api.post(`${apiPrefix}/messages/${messageId}/responses`, {
     description: content,
   })
 }
@@ -54,7 +54,8 @@ export function getReplies({ messageId }) {
     try {
       const replies = await doFetch(
         dispatch,
-        fetchReplies(api.withToken(getState().auth.token), { messageId }),
+        fetchReplies(api.withToken(getState().auth.token), { messageId,
+          apiPrefix: getState().auth.data.apiPrefix }),
         type
       )
       dispatch(setReplies({ messageId, replies }))
@@ -72,6 +73,7 @@ export function addReply({ content, messageId }) {
         createReply(api.withToken(getState().auth.token), {
           content,
           messageId,
+          apiPrefix: getState().auth.data.apiPrefix
         }),
         type
       )

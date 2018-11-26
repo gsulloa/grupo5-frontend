@@ -36,8 +36,8 @@ export default function posts(state = initialState, { type, payload }) {
   }
 }
 
-function fetchPeople(api) {
-  return api.get(`/services/175/people`)
+function fetchPeople(api, { apiPrefix }) {
+  return api.get(`${apiPrefix}/people`)
 }
 
 export function getPeople() {
@@ -45,7 +45,9 @@ export function getPeople() {
     try {
       const response = await doFetch(
         dispatch,
-        fetchPeople(api.withToken(getState().auth.token)),
+        fetchPeople(api.withToken(getState().auth.token), {
+          apiPrefix: getState().auth.data.apiPrefix
+        }),
         type
       )
       const people = response.reduce((all, person) => {

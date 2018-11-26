@@ -40,12 +40,12 @@ export default function posts(state = initialState, { type, payload }) {
   }
 }
 
-function fetchMessages(api, { postId }) {
-  return api.get(`/posts/${postId}/messages`)
+function fetchMessages(api, { postId, apiPrefix }) {
+  return api.get(`${apiPrefix}/posts/${postId}/messages`)
 }
 
-function createMessage(api, { content, postId }) {
-  return api.post(`/posts/${postId}/messages`, {
+function createMessage(api, { content, postId, apiPrefix }) {
+  return api.post(`${apiPrefix}/posts/${postId}/messages`, {
     description: content,
   })
 }
@@ -55,7 +55,8 @@ export function getMessages({ postId }) {
     try {
       const messages = await doFetch(
         dispatch,
-        fetchMessages(api.withToken(getState().auth.token), { postId }),
+        fetchMessages(api.withToken(getState().auth.token), { postId,
+          apiPrefix: getState().auth.data.apiPrefix }),
         type
       )
       dispatch(setMessages({ postId, messages }))
@@ -76,6 +77,7 @@ export function addMessage({ content, postId }) {
         createMessage(api.withToken(getState().auth.token), {
           content,
           postId,
+          apiPrefix: getState().auth.data.apiPrefix
         }),
         type
       )

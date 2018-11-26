@@ -4,15 +4,27 @@ import { withStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import CardActions from "@material-ui/core/CardActions"
 import Button from "@material-ui/core/Button"
+import Select from "@material-ui/core/Select"
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 
 const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  select: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 2,
+  },
   action: {
     display: "flex",
     justifyContent: "center",
+  },
+  inputLabel: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
   },
 })
 
@@ -22,7 +34,8 @@ class SignForm extends Component {
     password: "",
     name: "",
     lastName: "",
-  }
+    api: "/api",
+}
   onWrite = (key, val) => {
     this.setState({
       [key]: val,
@@ -36,7 +49,7 @@ class SignForm extends Component {
   render() {
     const { classes, submit, register } = this.props
     return (
-      <form noValidate onSubmit={this.handleSubmit}>
+      <form noValidate onSubmit={this.handleSubmit} className={classes.root}>
         <TextField
           required
           label="Email"
@@ -87,6 +100,18 @@ class SignForm extends Component {
             onChange={e => this.onWrite("lastName", e.target.value)}
           />
         )}
+        <InputLabel className={classes.inputLabel}>API</InputLabel>
+        <Select
+          required
+          value={this.state.api}
+          onChange={e => this.onWrite("api", e.target.value)}
+          displayEmpty
+          name="api"
+          className={classes.select}
+        >
+          <MenuItem value={"/api"}>Group 5</MenuItem>
+          <MenuItem value={"/api/g3"}>Group 3</MenuItem>
+        </Select>
         <CardActions className={classes.action}>
           <Button type="submit" color="primary" variant="outlined">
             {submit}

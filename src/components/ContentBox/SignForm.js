@@ -4,15 +4,23 @@ import { withStyles } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import CardActions from "@material-ui/core/CardActions"
 import Button from "@material-ui/core/Button"
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/Select";
 
 const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
   },
+  select: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 2,
+  },
   action: {
     display: "flex",
     justifyContent: "center",
+    flexWrap: "wrap",
   },
 })
 
@@ -22,6 +30,7 @@ class SignForm extends Component {
     password: "",
     name: "",
     lastName: "",
+    api: 5,
   }
   onWrite = (key, val) => {
     this.setState({
@@ -87,6 +96,17 @@ class SignForm extends Component {
             onChange={e => this.onWrite("lastName", e.target.value)}
           />
         )}
+        <Select
+          required
+          value={this.state.api}
+          onChange={e => this.onWrite("api", e.target.value)}
+          displayEmpty
+          name="api"
+          className={classes.select}
+        >
+          <MenuItem value={10}>Group 51</MenuItem>
+          <MenuItem value={20}>Group 3</MenuItem>
+        </Select>
         <CardActions className={classes.action}>
           <Button type="submit" color="primary" variant="outlined">
             {submit}

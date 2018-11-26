@@ -109,7 +109,7 @@ class SignForm extends Component {
           name="api"
           className={classes.select}
         >
-          <MenuItem value={"/api"}>Group 51</MenuItem>
+          <MenuItem value={"/api"}>Group 5</MenuItem>
           <MenuItem value={"/api/g3"}>Group 3</MenuItem>
         </Select>
         <CardActions className={classes.action}>
